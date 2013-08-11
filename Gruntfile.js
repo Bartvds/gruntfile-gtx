@@ -6,9 +6,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 
 	grunt.loadTasks('./test/tasks');
-	grunt.loadTasks('./test/tasks');
-
-	var path = require('path');
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -28,55 +25,33 @@ module.exports = function (grunt) {
 		clean: {
 			tmp: ['tmp/**/*', 'test/tmp**/*']
 		},
-		multi_grunt: {
-			help: {
+		grunt_cli_run: {
+			grunt_spec: {
 				options: {
-					args: {
-						'h': null
+					debugCli: true,
+					verbose: true,
+					process: function (result) {
+						console.dir(result);
+						if (result.code || result.error) {
+							return false;
+						}
+						//return 'bleh';
 					}
 				},
-				files: [
-					{
-						expand: true,
-						cwd: 'test/spec',
-						dest: 'test/spec/',
-						src: ['./**/Gruntfile.js'],
-						rename: function (dest, src) {
-							dest = path.resolve(path.join(dest, path.dirname(src), 'tmp', 'grunt-log.txt'));
-							console.log(dest);
-							return dest;
-						}
-					}
-				]
+				src: ['test/spec/**/Gruntfile.js']
 			},
-			all: {
+			self_help: {
 				options: {
-					params: {
-						args: {
-
-						}
-					}
+					help: true
 				},
-				files: [
-					{
-						expand: true,
-						cwd: 'test/spec',
-						dest: 'test/spec/',
-						src: ['./**/Gruntfile.js'],
-						rename: function (dest, src) {
-							dest = path.resolve(path.join(dest, path.dirname(src), 'tmp', 'grunt-log.txt'));
-							console.log(dest);
-							return dest;
-						}
-					}
-				]
-			}
-		},
-		gtx_log: {
-			'pre_grunt': {
-				log: 'go!'
+				src: ['Gruntfile.js']
 			},
-			'pre_test': {
+			self_info: {
+				options: {
+					verbose: true,
+					version: true
+				},
+				src: ['Gruntfile.js']
 			}
 		},
 		mochaTest: {
@@ -90,6 +65,6 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('default', ['test']);
-	grunt.registerTask('test', ['jshint', 'multi_grunt', 'mochaTest']);
+	grunt.registerTask('test', ['jshint', 'grunt_cli_run', 'mochaTest']);
 
 };

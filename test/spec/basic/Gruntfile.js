@@ -11,8 +11,6 @@ module.exports = function (grunt) {
 
 	assert.strictEqual(__dirname, process.cwd(), 'process.cwd');
 
-	assert.ok(false);
-
 	gtx.addConfig({
 		/*clean: {
 			tmp: './tmp/*'
