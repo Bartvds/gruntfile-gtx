@@ -1,5 +1,5 @@
 var mkdirp = require('mkdirp');
-var _ = require('underscore');
+//var _ = require('underscore');
 
 var chai = require('chai');
 chai.Assertion.includeStack = true;
@@ -8,9 +8,10 @@ chai.should();
 var assert = chai.assert;
 chai.use(require('chai-fs'));
 
-var gtx = require('../lib/index');
+var gtx_mod = require('../lib/index');
+assert.isObject(gtx_mod, 'gtx');
 
-chai.gtx = gtx;
+chai.gtx_mod = gtx_mod;
 
 before(function () {
 	// create some empty dirs (cannot check-in empty dirs to git)
@@ -23,6 +24,7 @@ before(function () {
 
 describe('gruntfile-gtx', function () {
 	it('exports module', function () {
-		assert.isFunction(gtx, 'gtx export');
+		assert.isObject(gtx_mod, 'gtx');
+		assert.isFunction(gtx_mod.wrap, 'gtx.wrap');
 	});
 });

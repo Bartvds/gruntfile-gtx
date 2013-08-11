@@ -6,6 +6,9 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 
 	grunt.loadTasks('./test/tasks');
+	grunt.loadTasks('./test/tasks');
+
+	var path = require('path');
 
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
@@ -26,25 +29,67 @@ module.exports = function (grunt) {
 			tmp: ['tmp/**/*', 'test/tmp**/*']
 		},
 		multi_grunt: {
-			tmp: ['test/spec/**/Gruntfile.js']
+			help: {
+				options: {
+					args: {
+						'h': null
+					}
+				},
+				files: [
+					{
+						expand: true,
+						cwd: 'test/spec',
+						dest: 'test/spec/',
+						src: ['./**/Gruntfile.js'],
+						rename: function (dest, src) {
+							dest = path.resolve(path.join(dest, path.dirname(src), 'tmp', 'grunt-log.txt'));
+							console.log(dest);
+							return dest;
+						}
+					}
+				]
+			},
+			all: {
+				options: {
+					params: {
+						args: {
+
+						}
+					}
+				},
+				files: [
+					{
+						expand: true,
+						cwd: 'test/spec',
+						dest: 'test/spec/',
+						src: ['./**/Gruntfile.js'],
+						rename: function (dest, src) {
+							dest = path.resolve(path.join(dest, path.dirname(src), 'tmp', 'grunt-log.txt'));
+							console.log(dest);
+							return dest;
+						}
+					}
+				]
+			}
+		},
+		gtx_log: {
+			'pre_grunt': {
+				log: 'go!'
+			},
+			'pre_test': {
+			}
 		},
 		mochaTest: {
 			options: {
 				reporter: 'mocha-unfunk-reporter'
 			},
-			pass: {
-				src: ['test/init.js', 'test/specs/*.js']
-			},
-			spec : {
-				options: {
-					reporter: 'Spec'
-				},
-				src: ['test/init.js', 'test/specs/**/*.spec.js']
+			all: {
+				src: ['test/init.js', 'test/spec/**/*.spec.js']
 			}
 		}
 	});
 
 	grunt.registerTask('default', ['test']);
-	grunt.registerTask('test', ['jshint', 'mochaTest']);
+	grunt.registerTask('test', ['jshint', 'multi_grunt', 'mochaTest']);
 
 };
