@@ -1,0 +1,52 @@
+{
+  "name": "gruntfile-gtx",
+  "version": "0.0.1",
+  "description": "Turbo, spoilers and a sunroof for your Gruntfile.",
+  "author": {
+    "name": "Bart van der Schoor",
+    "url": "https://github.com/Bartvds"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bartvds/gruntfile-gtx.git"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/Bartvds/gruntfile-gtx/blob/master/LICENSE-MIT"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/Bartvds/gruntfile-gtx/issues"
+  },
+  "keywords": [
+    "grunt",
+    "gruntfile",
+    "path",
+    "filesystem"
+  ],
+  "main": "lib/index.js",
+  "readmeFilename": "README.md",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-cli": "~0.1",
+    "grunt-mocha-test": "~0.5.0",
+    "mocha-unfunk-reporter": "~0.2",
+    "grunt-contrib-jshint": "~0.6.0",
+    "grunt-contrib-clean": "~0.5.0",
+    "jshint-path-reporter": "~0.1",
+    "mkdirp": "~0.3.5",
+    "underscore": "~1.5.1",
+    "chai": "~1.6.1",
+    "chai-fs": "~0.0.1"
+  }
+}
