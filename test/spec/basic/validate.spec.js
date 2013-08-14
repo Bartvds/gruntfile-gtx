@@ -1,3 +1,0 @@
-describe('gruntfile-gtx', function () {
-
-});

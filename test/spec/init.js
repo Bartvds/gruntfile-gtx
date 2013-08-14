@@ -8,7 +8,7 @@ chai.should();
 var assert = chai.assert;
 chai.use(require('chai-fs'));
 
-var gtx_mod = require('../lib/index');
+var gtx_mod = require('../../lib/index');
 assert.isObject(gtx_mod, 'gtx');
 
 chai.gtx_mod = gtx_mod;
@@ -18,7 +18,6 @@ before(function () {
 	mkdirp.sync('./test/tmp');
 	mkdirp.sync('./tmp');
 
-	assert.isDirectory('./test/fixtures');
 	assert.isDirectory('./test/tmp');
 });
 

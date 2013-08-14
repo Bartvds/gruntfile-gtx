@@ -1,10 +1,12 @@
 # gruntfile-gtx
 
-> Turbo, spoilers and a sunroof for your Gruntfile. 
+[![Build Status](https://secure.travis-ci.org/Bartvds/gruntfile-gtx.png?branch=master)](http://travis-ci.org/Bartvds/gruntfile-gtx) [![Dependency Status](https://gemnasium.com/Bartvds/gruntfile-gtx.png)](https://gemnasium.com/Bartvds/gruntfile-gtx) [![NPM version](https://badge.fury.io/js/gruntfile-gtx.png)](http://badge.fury.io/js/gruntfile-gtx)
 
-Gruntfile-gtx is a [Grunt](http://www.gruntjs.com) enhancement wrapper to make gruntfile task management more dynamic and powerful. Defining complex plugin and task setups while keeping your Gruntfile DRY.
+> Turbo, spoilers and a sunroof for your Gruntfile.
 
-:warning: The project is under construction so use with care. The current state was mutated organically and lacks unit tests. This will be refactored and improved as we go.
+Gruntfile-gtx is a [Grunt](http://www.gruntjs.com) enhancement wrapper to make gruntfile task management more dynamic and powerful. Define complex plugin and task setups while keeping your Gruntfile DRY.
+
+:warning: The project is pre-alpha. The current state was mutated organically and lacks unit tests. This will be refactored and improved as we go. Use with care until 0.1.0
 
 :bangbang: Code not be published yet!
 
@@ -29,10 +31,18 @@ Assume you have a project split into modules where each module can also be build
 
 ## Info
 
-* All generated aliases are prefixed with `gtx`, like `gtx-select:myAlias`, `gtx-group:dev`. They run like any task created by `grunt.registerTask()`. For example run `$ grunt gtx-group:dev`.
+* All generated aliases are prefixed with `gtx`, like `gtx-select:myAlias` or `gtx-group:dev`. They run like any task created by `grunt.registerTask()`. For example run `$ grunt gtx-group:dev`.
 * Use the `grunt -h` command to view the generated tasks.
-* Gtx works as a open facade: your gruntfile is still a regular gruntfile. Only difference is you import `gruntfile-gtx` and instead of `grunt.initConfig()` call `gtx.finalise()` to generate the config and apply aliases. 
-* The extra API sugar like `gtx.loadNpm()` is optional, but is generally DRY-er then the regular versions: where grunt originally accepts arrays of strings gtx's version will also accepts a single string to split on seperators: `gtx.alias('name', 'one, two, three')`.
+* Your gruntfile is still a regular gruntfile. Main difference is to import `gruntfile-gtx` on start and instead of `grunt.initConfig()` to call `gtx.finalise()`: this will generate the config and apply aliases. 
+* The extra API sugar like `gtx.loadNpm()` is optional, but is generally DRY-er then the regular versions.
+* Input uses recursive expansion and iteration where applicable.
+	* Split strings on separators to list: `gtx.alias('name', 'one, two, three')`
+	* Nested arrays are flattened to list: `gtx.alias('name', [['aa,bb'], 'cc', ['dd','ee'],'ff,gg,hh'])`  
+	* Where grunt methods accept a single string the alias will iterate: `gtx.loadNpm([..])`
+
+## Vagrant
+
+There is a Vagrantfile and set of Chef cookbooks to use with [Vagrant](http://www.vagrantup.com) for easy testing on a Linux VM. It will install a node.js from package, install the dependencies and enable grunt.
 
 ## License
 
