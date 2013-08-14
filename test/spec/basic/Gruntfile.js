@@ -3,7 +3,7 @@ module.exports = function (grunt) {
 
 	//var path = require('path');
 
-	var gtx = require('../../../lib/index.js').wrap(grunt);
+	var gtx = require('../../../lib/gtx.js').wrap(grunt);
 
 	gtx.loadTasks('../../../node_modules/grunt-contrib-clean/tasks');
 	gtx.loadTasks('../../test_tasks');

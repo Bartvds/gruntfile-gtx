@@ -1,9 +1,7 @@
 module.exports = function (grunt) {
 	'use strict';
 
-	//var path = require('path');
-
-	var gtx = require('./lib/index').wrap(grunt);
+	var gtx = require('./lib/gtx').wrap(grunt);
 	// gtx.debug = true;
 
 	gtx.loadNpm('grunt-mocha-test');
@@ -19,45 +17,47 @@ module.exports = function (grunt) {
 			tmp: ['tmp/**/*', 'test/tmp**/*']
 		},
 		jshint: {
-			all: {
+			core: {
 				options: {
 					reporter: './node_modules/jshint-path-reporter',
 					jshintrc: '.jshintrc'
 				},
 				src: [
-					'Gruntfile.js', 'lib/**/*.js', 'test/**/*.js'
+					'Gruntfile.js', 'lib/**/*.js'
 				]
 			}
 		},
 		mochaTest: {
 			options: {
 				reporter: 'mocha-unfunk-reporter'
-			},
-			all: { src: ['test/spec/init.js', 'test/spec/**/*.test.js'] }
+			}
 		},
 		run_grunt: {
 			options: {
 				'no-color': true,
 				debugCli: true
-			},
-			all: {
-				src: ['test/spec/*/Gruntfile.js']
 			}
 		}
 	});
 
 	gtx.define('testGruntTask', function (macro, id) {
-
 		var specPath = 'test/spec/' + id + '/';
 
 		macro.newTask('clean', [specPath + 'tmp']);
 
+		macro.newTask('jshint', {
+			src: [
+				specPath + '**/*.js'
+			]
+		});
+
 		macro.newTask('run_grunt', {
 			options: {
 				log: macro.getParam('log', true),
+				logFile: specPath + 'tmp/log.txt',
 				help: true,
+				// check exported data
 				parser: 'parseHelp',
-				saveLog: macro.getParam('log', true),
 				process: function (result) {
 					grunt.file.write(specPath + 'tmp/tasks.json', JSON.stringify(result.parsed, null, 2));
 				}
@@ -74,11 +74,12 @@ module.exports = function (grunt) {
 	gtx.create('basic', 'testGruntTask', {log: false});
 	gtx.create('dummy', 'testGruntTask', {log: true});
 
-	gtx.alias('default', ['test']);
-	gtx.alias('test', ['jshint', 'run_grunt:all', 'mochaTest:all']);
+	gtx.alias('test', ['gtx-group:test']);
 
 	gtx.alias('edit_01', 'gtx:basic');
 	gtx.alias('edit_02', 'gtx:dummy');
+
+	gtx.alias('default', ['test']);
 
 	gtx.finalise();
 };

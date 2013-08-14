@@ -4,7 +4,8 @@ module.exports = function (grunt) {
 	//var path = require('path');
 	var path = require('path');
 
-	var gtx = require('../../../lib/index.js').wrap(grunt);
+	var gtx = require('../../../lib/gtx.js').wrap(grunt);
+	gtx.debug = true;
 
 	gtx.loadTasks('../../../node_modules/grunt-contrib-clean/tasks');
 	gtx.loadTasks('../../test_tasks');
@@ -39,6 +40,37 @@ module.exports = function (grunt) {
 			}
 		}
 	});
+	gtx.define('soundCheck', function (macro, id) {
+		macro.addLog('Test!');
+
+		var str = id + ' says: ';
+		macro.newTask('echo', {
+			options: {
+				echo: str + 'one'
+			}
+		});
+		if (!macro.getParam('echoMuted', false)) {
+			macro.newTask('echo', {
+				options: {
+					echo: str + 'two'
+				}
+			});
+			macro.newTask('echo', {
+				options: {
+					echo: str + 'two two'
+				}
+			});
+			macro.newTask('echo', {
+				options: {
+					echo: str + 'one one two two'
+				}
+			});
+		}
+		macro.log('Done!');
+	});
+
+	gtx.create('Hank,Jimmy', 'soundCheck');
+	gtx.create('Albert', 'soundCheck', {echoMuted: true});
 
 	gtx.alias('default', ['echo:before', 'dummies', 'echo:after']);
 

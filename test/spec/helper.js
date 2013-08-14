@@ -33,7 +33,10 @@ function fileEqual(normalised, setName, pairName) {
 function fileEqualJSON(setName, pairName) {
 	assert.lengthOf(arguments, 2, 'arguments');
 
-	var actual = grunt.file.readJSON('test/spec/' + setName + '/tmp/' + pairName);
+	var tmp = 'test/spec/' + setName + '/tmp/' + pairName;
+	assert.isFile(tmp);
+
+	var actual = grunt.file.readJSON(tmp);
 	var expected = grunt.file.readJSON('test/spec/' + setName + '/expected/' + pairName);
 	assert.ok(actual, 'actual should be ok: ' + pairName);
 	assert.ok(expected, 'expected should be ok: ' + pairName);
@@ -50,6 +53,12 @@ function assertSpec(__filename, files) {
 	var setName = getTestName(__filename);
 
 	describe('spec/' + setName, function () {
+		if (files.length === 0) {
+			it(base, function () {
+				assert(false, 'no files');
+			});
+			return;
+		}
 		files.forEach(function (file) {
 			var base = path.basename(file);
 			it(base, function () {

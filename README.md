@@ -1,4 +1,4 @@
-# gruntfile-gtx
+agrant hal# gruntfile-gtx
 
 [![Build Status](https://secure.travis-ci.org/Bartvds/gruntfile-gtx.png?branch=master)](http://travis-ci.org/Bartvds/gruntfile-gtx) [![Dependency Status](https://gemnasium.com/Bartvds/gruntfile-gtx.png)](https://gemnasium.com/Bartvds/gruntfile-gtx) [![NPM version](https://badge.fury.io/js/gruntfile-gtx.png)](http://badge.fury.io/js/gruntfile-gtx)
 
@@ -6,16 +6,14 @@
 
 Gruntfile-gtx is a [Grunt](http://www.gruntjs.com) enhancement wrapper to make gruntfile task management more dynamic and powerful. Define complex plugin and task setups while keeping your Gruntfile DRY.
 
-:warning: The project is pre-alpha. The current state was mutated organically and lacks unit tests. This will be refactored and improved as we go. Use with care until 0.1.0
-
-:bangbang: Code not be published yet!
+:warning: The project is pre-alpha. The current state was mutated organically and lacks unit tests. This will be refactored and improved as we go. Use with care until 0.1.0 (fixed version, no ~'s or be sad)
 
 ## Features
 
-* Transparently streamline the gruntfile api.
 * Use macros to generate chains of related plugin tasks.
 * Use tags to group and select similar targets.
 * Create new aliases by filtering tasks on various fields.
+* Transparently streamline the gruntfile api.
 
 The most powerful feature is the macro definition that is used to define chains of targets for different plugins that together define a sub build-process. Using this makes it easy to share parameters like identifiers, (partial) paths etc to create different instances of the macro. 
 
