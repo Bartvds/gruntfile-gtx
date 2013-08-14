@@ -41,7 +41,7 @@ module.exports = function (grunt) {
 		}
 	});
 	gtx.define('soundCheck', function (macro, id) {
-		macro.addLog('Test!');
+		macro.log('Test!');
 
 		var str = id + ' says: ';
 		macro.newTask('echo', {

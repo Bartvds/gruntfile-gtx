@@ -21,6 +21,8 @@ before(function () {
 	assert.isDirectory('./test/tmp');
 });
 
+console.log('init!');
+
 describe('gruntfile-gtx', function () {
 	it('exports module', function () {
 		assert.isObject(gtx_mod, 'gtx');

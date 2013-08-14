@@ -1,14 +1,20 @@
 module.exports = function (grunt) {
 
+	var util = require('util');
+	var _ = grunt.util._;
+
 	grunt.registerMultiTask('gtx-log', 'Log values to console', function () {
-		var pre = '-> "' + this.target + '"';
-		var prep = pre + ': ';
-
 		var options = this.options({
-			log: '<no log message>'
+			message: '<no log message>'
 		});
+		var sender = '';
+		if (options.sender) {
+			sender = options.sender + ': ';
+		}
+		var pre = '-> "' + this.target + '"';
+		var prep = pre + ': ' + sender;
 
-		var value = this.data.log || options.log;
+		var value = this.data.message || options.message;
 		if (value) {
 			if (_.isFunction(value)) {
 				value = value(grunt, options, this.data);

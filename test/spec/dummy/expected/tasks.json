@@ -31,6 +31,32 @@
 				"echo:before",
 				"echo:echo",
 				"echo:after"
+			],
+			"gtx:Hank": [
+				"gtx-log:{001}",
+				"echo:{gtx_002}",
+				"echo:{gtx_003}",
+				"echo:{gtx_004}",
+				"echo:{gtx_005}",
+				"gtx-log:{006}"
+			],
+			"gtx:Jimmy": [
+				"gtx-log:{007}",
+				"echo:{gtx_008}",
+				"echo:{gtx_009}",
+				"echo:{gtx_010}",
+				"echo:{gtx_011}",
+				"gtx-log:{012}"
+			],
+			"gtx:Albert": [
+				"gtx-log:{013}",
+				"echo:{gtx_014}",
+				"gtx-log:{015}"
+			],
+			"gtx-type:soundCheck": [
+				"gtx:Hank",
+				"gtx:Jimmy",
+				"gtx:Albert"
 			]
 		}
 	}

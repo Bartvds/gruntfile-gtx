@@ -4,3 +4,5 @@ npm-debug.log
 /*.tgz
 /.idea
 /.vagrant
+
+tmp/
