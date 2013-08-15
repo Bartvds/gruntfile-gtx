@@ -4,7 +4,7 @@
 
 > Turbo, spoilers and a sunroof for your Gruntfile. :checkered_flag:
 
-[Grunt](http://www.gruntjs.com) enhancement wrapper to make gruntfile task management more dynamic and powerful. Define complex plugin and task setups while keeping your Gruntfile DRY and shiny.
+[Grunt](http://www.gruntjs.com) enhancement to make gruntfile task management more dynamic and powerful. Handle demanding task and target setups while keeping your Gruntfile shiny and DRY.
 
 :warning: The project is pre-alpha. Use with care until 0.1.0 (fixed version, no ~'s) =
 
@@ -15,15 +15,15 @@
 * Create new aliases by filtering tasks on various fields.
 * Transparently streamline the gruntfile api.
 
-The most powerful feature is the macro definition that is used to define chains of targets for different plugins that together define a repeatable build-sub-process. Using this makes it easy to share parameters like identifiers, (partial) paths etc to create different instances of the macro.
+The most powerful feature is the macro definition that is used to define chains of targets for different plugins that together define a blueprint for build-sub-process. Create different instances that share or change parameters like identifiers, (partial) paths.
 
 ## Macro use-case
 
-Assume you have a project split into modules where each module can also be build and tested separately. You want to leverage this to quickly TDD iterate on a specific module. 
+Assume you have a project nicely split into testable modules. You want to leverage this to quickly iterate coding and testing on a specific module. 
 
 * Each module requires running a plugin chain: for example: clean, lint, compile, test, compress, update exports etc.
-* In a regular gruntfile this will mean maintaining repeating configuration data in different places. Fields like paths and identifiers are reused each target configuration. This is not DRY and a chore to maintain.
-* With gruntfile-gtx you can define this as a macro function that will be called per-instance with a helper object that assembles the new chain.
+* In a regular gruntfile this will mean maintaining repeating configuration data in different places. Fields like paths and identifiers are reused each target configuration. This is not DRY and will lead to mistakes and config bloat.
+* With gruntfile-gtx you can define a macro, a function that will be called per-instance with a helper object that assembles the new chain.
 * When you use the macro you give the instance an alias name and pass your custom fields. The macro then will generate the appropriate grunt configuration elements and alias the chain as a new task.
 * Use these as-is or apply a selector query to make new aliases: for example select a few specific tasks for debugging. It can be used like any other alias. Call it from command line, link it from your IDE.
 
@@ -48,11 +48,15 @@ Check the [Gruntfile](https://github.com/Bartvds/gruntfile-gtx/blob/master/Grunt
 
 ## Future
 
-There a lot of ideas for this floating around my work-log documents, from auto-dependency chains and non-repeating macro util tasks, to globbing helpers to generate macro instances and flows adapting to custom cli parameters or env variables.
+There a lot of ideas for this floating around, from auto-dependency chains and non-repeating macro util tasks, to globbing helpers to generate macro instances and flows adapting to custom cli parameters or env variables.
 
 ## API
 
 :x: Yet undocumented. See the [Gruntfile](https://github.com/Bartvds/gruntfile-gtx/blob/master/Gruntfile.js) and [browse the tests](https://github.com/Bartvds/gruntfile-gtx/tree/master/test/spec) for examples.
+
+# History
+
+* ~0.0.2 - Various construction work.
 
 ## Vagrant
 
