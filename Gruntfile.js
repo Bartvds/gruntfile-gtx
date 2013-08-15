@@ -8,6 +8,7 @@ module.exports = function (grunt) {
 	gtx.loadNpm('grunt-contrib-jshint');
 	gtx.loadNpm('grunt-contrib-clean');
 	gtx.loadNpm('grunt-run-grunt');
+	gtx.loadNpm('grunt-bump');
 
 	gtx.loadTasks('./test/test_tasks');
 
@@ -36,6 +37,21 @@ module.exports = function (grunt) {
 			options: {
 				'no-color': true,
 				debugCli: false
+			}
+		},
+		bump: {
+			options: {
+				files: ['package.json'],
+				updateConfigs: ['pkg'],
+				commit: true,
+				commitMessage: 'Release v%VERSION%',
+				commitFiles: ['-a'], // '-a' for all files
+				createTag: true,
+				tagName: 'v%VERSION%',
+				tagMessage: 'Version %VERSION%',
+				push: true,
+				pushTo: 'origin',
+				gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d' // options to use with '$ git describe'
 			}
 		}
 	});
