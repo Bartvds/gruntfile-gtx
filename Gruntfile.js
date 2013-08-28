@@ -14,15 +14,32 @@ module.exports = function (grunt) {
 
 	gtx.addConfig({
 		pkg: grunt.file.readJSON('package.json'),
+		bump: {
+			options: {
+				files: ['package.json'],
+				updateConfigs: ['pkg'],
+				commit: true,
+				commitMessage: 'release %VERSION%',
+				commitFiles: ['-a'], // '-a' for all files
+				createTag: true,
+				tagName: '%VERSION%',
+				tagMessage: 'version %VERSION%',
+				push: true,
+				pushTo: 'origin',
+				// cargo cult magic.. wtf?
+				// options to use with '$ git describe'
+				gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
+			}
+		},
 		clean: {
-			tmp: ['tmp/**/*', 'test/tmp**/*'] //, 'test/spec/*/tmp/**/*'
+			tmp: ['tmp/**/*', 'test/tmp**/*']
 		},
 		jshint: {
+			options: {
+				reporter: './node_modules/jshint-path-reporter',
+				jshintrc: '.jshintrc'
+			},
 			core: {
-				options: {
-					reporter: './node_modules/jshint-path-reporter',
-					jshintrc: '.jshintrc'
-				},
 				src: [
 					'Gruntfile.js', 'lib/**/*.js', 'tasks/**/*.js'
 				]
@@ -38,26 +55,8 @@ module.exports = function (grunt) {
 				'no-color': true,
 				debugCli: false
 			}
-		},
-		bump: {
-			options: {
-				files: ['package.json'],
-				updateConfigs: ['pkg'],
-				commit: true,
-				commitMessage: 'Release v%VERSION%',
-				commitFiles: ['-a'], // '-a' for all files
-				createTag: true,
-				tagName: 'v%VERSION%',
-				tagMessage: 'Version %VERSION%',
-				push: true,
-				pushTo: 'origin',
-				gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d' // options to use with '$ git describe'
-			}
 		}
 	});
-
-	gtx.alias('prep', ['jshint:core']);
-
 	// assemble a macro
 	gtx.define('testGruntTask', function (macro, id) {
 		var specPath = 'test/spec/' + id + '/';
@@ -93,15 +92,20 @@ module.exports = function (grunt) {
 		macro.tag('test');
 	});
 
+	// build main aliases
+
+	gtx.alias('prep', ['jshint:core']);
+	gtx.alias('default', ['test']);
+
+	// use the macro
 	gtx.create('basic', 'testGruntTask', {log: false});
-	gtx.create('dummy', 'testGruntTask', {log: false});
+	gtx.create('dummy', 'testGruntTask');
 
 	gtx.alias('test', ['gtx-group:test']);
 
 	gtx.alias('edit_01', 'gtx:basic');
 	gtx.alias('edit_02', 'gtx:dummy');
 
-	gtx.alias('default', ['test']);
 
 	//gtx.debug = true;
 	gtx.finalise();

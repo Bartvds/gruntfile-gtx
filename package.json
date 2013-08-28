@@ -1,6 +1,6 @@
 {
   "name": "gruntfile-gtx",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Turbo, spoilers and a sunroof for your Gruntfile.",
   "author": {
     "name": "Bart van der Schoor",
@@ -46,7 +46,7 @@
     "grunt-contrib-clean": "~0.5.0",
     "jshint-path-reporter": "~0.1",
     "mkdirp": "0.3.5",
-    "grunt-run-grunt": "git://github.com/Bartvds/grunt-run-grunt",
+    "grunt-run-grunt": "0.0.4",
     "underscore": "1.5.1",
     "chai": "1.6.1",
     "chai-fs": "0.0.1",
