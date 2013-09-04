@@ -63,8 +63,6 @@ There a lot of ideas for this floating around, from auto-dependency chains and n
 
 Contributions will be most welcome once the API and features are stabilised a bit more.
 
-I
-
 ## Vagrant
 
 There is a Vagrantfile and set of Chef cookbooks to use with [Vagrant](http://www.vagrantup.com) for easy testing on a Linux VM. It will install a node.js from package, install the dependencies and enable grunt.
