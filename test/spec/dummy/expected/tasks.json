@@ -33,25 +33,25 @@
 				"echo:after"
 			],
 			"gtx:Hank": [
-				"gtx-log:{001}",
-				"echo:{gtx_002_Hank}",
-				"echo:{gtx_003_Hank}",
-				"echo:{gtx_004_Hank}",
-				"echo:{gtx_005_Hank}",
-				"gtx-log:{006}"
+				"gtx-log:<001>",
+				"echo:<002-Hank>",
+				"echo:<003-Hank>",
+				"echo:<004-Hank>",
+				"echo:<005-Hank>",
+				"gtx-log:<006>"
 			],
 			"gtx:Jimmy": [
-				"gtx-log:{007}",
-				"echo:{gtx_008_Jimmy}",
-				"echo:{gtx_009_Jimmy}",
-				"echo:{gtx_010_Jimmy}",
-				"echo:{gtx_011_Jimmy}",
-				"gtx-log:{012}"
+				"gtx-log:<007>",
+				"echo:<008-Jimmy>",
+				"echo:<009-Jimmy>",
+				"echo:<010-Jimmy>",
+				"echo:<011-Jimmy>",
+				"gtx-log:<012>"
 			],
 			"gtx:Albert": [
-				"gtx-log:{013}",
-				"echo:{gtx_014_Albert}",
-				"gtx-log:{015}"
+				"gtx-log:<013>",
+				"echo:<014-Albert>",
+				"gtx-log:<015>"
 			],
 			"gtx-type:soundCheck": [
 				"gtx:Hank",

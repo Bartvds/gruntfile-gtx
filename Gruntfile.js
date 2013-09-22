@@ -58,7 +58,7 @@ module.exports = function (grunt) {
 		}
 	});
 	// assemble a macro
-	gtx.define('testGruntTask', function (macro, id) {
+	gtx.define('testCase', function (macro, id) {
 		var specPath = 'test/spec/' + id + '/';
 
 		macro.log(specPath);
@@ -90,6 +90,8 @@ module.exports = function (grunt) {
 			src: ['test/spec/init.js', specPath + '**/*.test.js']
 		});
 		macro.tag('test');
+	}, {
+		concurrent: 2
 	});
 
 	// build main aliases
@@ -98,10 +100,11 @@ module.exports = function (grunt) {
 	gtx.alias('default', ['test']);
 
 	// use the macro
-	gtx.create('basic', 'testGruntTask', {log: false});
-	gtx.create('dummy', 'testGruntTask');
+	gtx.create('basic,concurrent', 'testCase', {log: true});
+	gtx.create('dummy', 'testCase', {log: true});
 
 	gtx.alias('test', ['gtx-group:test']);
+	gtx.alias('dev', ['gtx-type:testCase:xm']);
 
 	gtx.alias('edit_01', 'gtx:basic');
 	gtx.alias('edit_02', 'gtx:dummy');

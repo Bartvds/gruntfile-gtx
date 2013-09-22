@@ -13,12 +13,23 @@ module.exports = function (grunt) {
 		var task = scope.name + ':' + scope.target;
 
 		var options = scope.options({
-			echo: 'echo echo'
+			echo: 'echo echo',
+			wait: 0
 		});
 		grunt.log.writeln(options.echo);
 
-		grunt.log.writeln('echo task: ' + task);
-		grunt.log.ok('done');
+		if (options.wait > 0) {
+			var done = scope.async();
+			setTimeout(function () {
+				grunt.log.writeln('echo task: ' + task);
+				grunt.log.ok('done');
+				done();
+			}, options.wait);
+		}
+		else {
+			grunt.log.writeln('echo task: ' + task);
+			grunt.log.ok('done');
+		}
 	}
 
 	function fail(scope, fatal) {
@@ -39,7 +50,7 @@ module.exports = function (grunt) {
 		grunt.log.writeln(task);
 
 		var options = scope.options({
-			data:''
+			data: ''
 		});
 		if (!options.path) {
 			grunt.fail.warn('-> missing path option');
@@ -62,11 +73,14 @@ module.exports = function (grunt) {
 	});
 	grunt.registerMultiTask('dummy_tango', 'cli test "dummy_tango" task', function () {
 		var done = this.async();
+		var options = this.options({
+			wait: 100
+		});
 		var self = this;
 		setTimeout(function () {
 			dummy(self);
 			done();
-		}, 100);
+		}, options.wait);
 	});
 	grunt.registerMultiTask('write_file', 'cli test "write_file" task', function () {
 		write(this);
