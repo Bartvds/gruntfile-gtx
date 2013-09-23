@@ -56,7 +56,7 @@ There a lot of ideas for this floating around, from auto-dependency chains and n
 
 # History
 
-* 0.0.4 - Added concurrent-execution to gtx:type
+* 0.0.5 - Added concurrent-execution to gtx:type
 * 0.0.3 - NPM push
 * 0.0.2 - Various construction work
 

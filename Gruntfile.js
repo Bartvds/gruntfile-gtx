@@ -104,7 +104,7 @@ module.exports = function (grunt) {
 	gtx.create('dummy', 'testCase', {log: true});
 
 	gtx.alias('test', ['gtx-group:test']);
-	gtx.alias('dev', ['gtx-type:testCase:xm']);
+	gtx.alias('dev', ['gtx-type:testCase']);
 
 	gtx.alias('edit_01', 'gtx:basic');
 	gtx.alias('edit_02', 'gtx:dummy');
