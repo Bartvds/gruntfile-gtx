@@ -129,7 +129,7 @@ Most of these wait until Grunt reaches `0.5.0` (which will be amazing and solve 
 
 # History
 
-* 0.0.9 - Cleaned task, small fixes, bundle [load-grunt-tasks](https://github.com/sindresorhus/load-grunt-tasks) (via `grunt.autoLoad()`)
+* 0.0.8 - Cleaned task, small fixes, bundle [load-grunt-tasks](https://github.com/sindresorhus/load-grunt-tasks) (via `grunt.autoLoad()`)
 * 0.0.5 - Added concurrent-execution to gtx:type
 * 0.0.3 - NPM push
 * 0.0.2 - Various construction work
