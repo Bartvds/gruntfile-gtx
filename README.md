@@ -21,73 +21,153 @@ Macros are powerful to define chains of targets for different plugins that toget
 
 Check the [Gruntfile](https://github.com/Bartvds/gruntfile-gtx/blob/master/Gruntfile.js) for practical [dogfooding](https://en.wikipedia.org/wiki/Dogfooding) and [browse the tests](https://github.com/Bartvds/gruntfile-gtx/tree/master/test/spec) for some more options.
 
-### Practical example
+### Example
 
-The following snippets are lifted from the [gruntfile of TSD](https://github.com/DefinitelyTyped/tsd/blob/develop-0.5.x/Gruntfile.js) and show a macro to compile and run separated 'test modules'.
+The following code block shows many of the enhancement features. The macro example is lifted from the [gruntfile of TSD](https://github.com/DefinitelyTyped/tsd/blob/develop-0.5.x/Gruntfile.js) and shows a macro to compile and run separated 'test modules'.
 
-The use-case makes test easier to run by splitting the test-suite over multiple semi-isolated folders for rapid (partial) TDD. Additionally separate 'modules' can also be run concurrently to cut down test duration for IO heavy topics. 
+This specific macro aims to make the different project modules easier to run by splitting the test-suite over multiple separate folders. Additionally separate 'modules' can also be run concurrently to cut-down on overall test-duration for IO heavy topics. 
 
-Note the macro uses a few plugins to setup and run: it would be a hassle to maintain these modules in a regular gruntfile but easy when using a macro to build the chains. 
+Note how the macro uses a few plugins to setup and run: it would be a hassle to maintain these modules in a regular gruntfile but it is easy when using a macro to build the chains. 
 
 
 ````js
-// define the macro
-// note the macro object is a context with helpers to assemble a new instance named 'id'
-gtx.define('module_tester', function (macro, id) {
-	// let's use the instance id to build the path
-	var testPath = 'test/modules/' + id + '/';
-	
-	// create grunt-contrib-clean to remove old test output
-	macro.newTask('clean', [testPath + 'tmp/**/*']);
+// export like any Gruntfile
+module.exports = function (grunt) {
 
-	// create grunt-ts task to compile the TypeScript test cases
-	macro.newTask('ts', {
-		options: {},
-		src: [testPath + 'src/**/*.ts'],
-		out: testPath + 'tmp/' + id + '.test.js'
-	});
-	// run grunt-tslint
-	macro.newTask('tslint', {
-		src: [testPath + 'src/**/*.ts']
-	});
-	// optionally spawn a grunt-contrib-connect
-	if (macro.getParam('http', 0) > 0) {
-		macro.newTask('connect', {
+	// get the gtx instance
+	var gtx = require('gruntfile-gtx').wrap(grunt);
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+	// load some plugins
+
+	gtx.loadNpm(
+		'myPlugin',
+		'myOtherPlugin'
+	);
+	gtx.loadTasks('./tasks');
+
+	// use bundled 'load-grunt-tasks'
+	gtx.autoLoad();
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+	// basic configuration
+
+	// build the grunt config like the regular structure
+	gtx.addConfig({
+		pkg: grunt.file.readJSON('package.json'),
+		myPlugin: {
 			options: {
-				port: macro.getParam('http'),
-				base: testPath + 'www/'
+				//..
+			},
+			main: {
+				src: ['./files/main/*.js']
+				//..
 			}
-		});
-		//tag for easy retrieval
-		macro.tag('http');
-	}
-	// run a regular task
-	macro.runTask('mocha_unfunk:dev');
-	// run grunt-mocha-test on the compiled test cases
-	macro.newTask('mochaTest', {
-		options: {
-			timeout: macro.getParam('timeout', 2000)
 		},
-		src: [testPath + 'tmp/**/*.test.js']
+		myOtherPlugin: {
+			main: {
+				src: ['./files/dev/*.js']
+				//..
+			}
+		}
 	});
-}, {
-	// optionally run using grunt-concurrent (for now only from gtx-type)
-	concurrent: 4
-});
+	// ... but split over multiple statements
+	gtx.addConfig({
+		myPlugin: {
+			dev: {
+				src: ['./files/dev/*.js']
+				//..
+			}
+		}
+	});
+	// directly set config object
+	gtx.addConfigFor('myPlugin', 'beta', {
+		src: ['./files/beta/*.js']
+	});
+	// generate a unique name (note: this is the basis for the macro feature)
+	var name = gtx.addConfigFor('myPlugin', {
+		src: ['./files/gamma/*.js']
+	});
+	// do creative stuff by generating tasks (go wild here)
+	gtx.alias('bulk_run', ['one', 'two', 'three'].map(function (name) {
+		return gtx.addConfigFor('myPlugin', {
+			src: ['./files/' + name + '/*.js']
+		});
+	}));
 
-// now make some instances:
-gtx.create('git', 'module_tester', null, 'lib');
-gtx.create('tsd', 'module_tester', {timeout: 10000}, 'lib,core');
-gtx.create('http', 'module_tester', {
-	timeout: 20000,
-	http: 8080
-}, 'lib');
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
-// make alias to run all instances as your $ grunt test
-gtx.alias('test', ['gtx-type:module_tester']);
+	// define a macro (lifted from practical use-case)
+
+	// note the macro object is a context with helpers to assemble a new instance named 'id'
+	gtx.define('module_tester', function (macro, id) {
+		// let's use the instance id to build a shared path
+		var testPath = 'test/modules/' + id + '/';
+
+		// use grunt-contrib-clean to remove old test output
+		macro.newTask('clean', [testPath + 'tmp/**/*']);
+
+		// use grunt-ts to compile the TypeScript test cases
+		macro.newTask('ts', {
+			options: {},
+			src: [testPath + 'src/**/*.ts'],
+			out: testPath + 'tmp/' + id + '.test.js'
+		});
+		// use grunt-tslint
+		macro.newTask('tslint', {
+			src: [testPath + 'src/**/*.ts']
+		});
+		// optionally spawn a grunt-contrib-connect
+		if (macro.getParam('http', 0) > 0) {
+			macro.newTask('connect', {
+				options: {
+					port: macro.getParam('http'),
+					base: testPath + 'www/'
+				}
+			});
+			//tag for easy retrieval
+			macro.tag('http');
+		}
+		// run a regular task
+		macro.runTask('myPlugin:dev');
+
+		// run grunt-mocha-test on the compiled test cases
+		macro.newTask('mochaTest', {
+			options: {
+				timeout: macro.getParam('timeout', 2000)
+			},
+			src: [testPath + 'tmp/**/*.test.js']
+		});
+	}, {
+		// optionally run parallel using grunt-concurrent (for now only from gtx-type)
+		concurrent: 4
+	});
+
+	// use the macro to make many instances
+	gtx.create('git', 'module_tester', null, 'lib');
+	gtx.create('tsd', 'module_tester', {timeout: 10000}, 'lib,core');
+	gtx.create('http', 'module_tester', {
+		timeout: 20000,
+		http: 8080
+	}, 'lib');
+	gtx.create('basic,remote,local', 'module_tester');
+
+	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+	// let's make an alias to run all instances as your $ grunt test
+	gtx.alias('test', ['gtx-type:module_tester']);
+
+	// alias is short-cut for grunt.registerTask();
+	gtx.alias('default', ['test']);
+
+	// compile and send to the grunt.initConfig()
+	gtx.finalise();
+};
 ````
 
-To run these:
+To run these macro instances:
 ````
 $ grunt -h
 $ grunt gtx:git
