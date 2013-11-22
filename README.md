@@ -17,6 +17,10 @@
 
 Macros are powerful to define chains of targets for different plugins that together define a blueprint for build-sub-process. Create different instances that share or change parameters like identifiers, (partial) paths.
 
+### API Change
+
+Per v0.1.0 the API was updated. The old docs can be found [here](https://github.com/Bartvds/gruntfile-gtx/commit/3472afa6546980e2a00933023c357dd516fcba2c)
+
 ## Usage
 
 Check the [Gruntfile](https://github.com/Bartvds/gruntfile-gtx/blob/master/Gruntfile.js) for practical [dogfooding](https://en.wikipedia.org/wiki/Dogfooding) and [browse the tests](https://github.com/Bartvds/gruntfile-gtx/tree/master/test/spec) for some more options.
@@ -47,16 +51,17 @@ module.exports = function (grunt) {
 	);
 	gtx.loadTasks('./tasks');
 
-	// use bundled 'load-grunt-tasks'
-	gtx.autoLoad();
+	// or attempt to automatically load
+	gtx.loadAuto();
 
 	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 	// basic configuration
 
 	// build the grunt config like the regular structure
-	gtx.addConfig({
-		pkg: grunt.file.readJSON('package.json'),
+	gtx.config({
+		// blend objects
+		pkg: gtx.readJSON('package.json', {title: 'foo'}, './conf/overwrite.json'),
 		myPlugin: {
 			options: {
 				//..
@@ -74,7 +79,7 @@ module.exports = function (grunt) {
 		}
 	});
 	// ... but split over multiple statements
-	gtx.addConfig({
+	gtx.config({
 		myPlugin: {
 			dev: {
 				src: ['./files/dev/*.js']
@@ -83,11 +88,11 @@ module.exports = function (grunt) {
 		}
 	});
 	// directly set config object
-	gtx.addConfigFor('myPlugin', 'beta', {
+	gtx.configFor('myPlugin', 'beta', {
 		src: ['./files/beta/*.js']
 	});
 	// generate a unique name (note: this is the basis for the macro feature)
-	var name = gtx.addConfigFor('myPlugin', {
+	var name = gtx.configFor('myPlugin', {
 		src: ['./files/gamma/*.js']
 	});
 	// do creative stuff by generating tasks (go wild here)
@@ -107,21 +112,26 @@ module.exports = function (grunt) {
 		var testPath = 'test/modules/' + id + '/';
 
 		// use grunt-contrib-clean to remove old test output
-		macro.newTask('clean', [testPath + 'tmp/**/*']);
+		macro.add('clean', [testPath + 'tmp/**/*']);
+
+		// run a regular task
+		macro.run('myPlugin:dev');
+		// run a regular task, only once for all instances
+		macro.runOnce('jshint:support');
 
 		// use grunt-ts to compile the TypeScript test cases
-		macro.newTask('ts', {
+		macro.add('ts', {
 			options: {},
 			src: [testPath + 'src/**/*.ts'],
 			out: testPath + 'tmp/' + id + '.test.js'
 		});
 		// use grunt-tslint
-		macro.newTask('tslint', {
+		macro.add('tslint', {
 			src: [testPath + 'src/**/*.ts']
 		});
 		// optionally spawn a grunt-contrib-connect
 		if (macro.getParam('http', 0) > 0) {
-			macro.newTask('connect', {
+			macro.add('connect', {
 				options: {
 					port: macro.getParam('http'),
 					base: testPath + 'www/'
@@ -130,11 +140,8 @@ module.exports = function (grunt) {
 			//tag for easy retrieval
 			macro.tag('http');
 		}
-		// run a regular task
-		macro.runTask('myPlugin:dev');
-
 		// run grunt-mocha-test on the compiled test cases
-		macro.newTask('mochaTest', {
+		macro.add('mochaTest', {
 			options: {
 				timeout: macro.getParam('timeout', 2000)
 			},
@@ -209,6 +216,7 @@ Most of these wait until Grunt reaches `0.5.0` (which will be amazing and solve 
 
 # History
 
+* 0.1.0 - Renamed some methods on gtx api, added `macro.runOnce()`, added `gtx.readJSON`/`gtx.readYAML` helpers
 * 0.0.8 - Cleaned task, small fixes, bundle [load-grunt-tasks](https://github.com/sindresorhus/load-grunt-tasks) (via `grunt.autoLoad()`)
 * 0.0.5 - Added concurrent-execution to gtx:type
 * 0.0.3 - NPM push

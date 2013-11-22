@@ -10,7 +10,7 @@ module.exports = function (grunt) {
 	gtx.loadTasks('../../../node_modules/grunt-contrib-clean/tasks');
 	gtx.loadTasks('../../test_tasks');
 
-	gtx.addConfig({
+	gtx.config({
 		clean: {
 			tests: ['tmp/**/*']
 		},
@@ -44,23 +44,23 @@ module.exports = function (grunt) {
 		macro.log('Test!');
 
 		var str = id + ' says: ';
-		macro.newTask('echo', {
+		macro.add('echo', {
 			options: {
 				echo: str + 'one'
 			}
 		});
 		if (!macro.getParam('echoMuted', false)) {
-			macro.newTask('echo', {
+			macro.add('echo', {
 				options: {
 					echo: str + 'two'
 				}
 			});
-			macro.newTask('echo', {
+			macro.add('echo', {
 				options: {
 					echo: str + 'two two'
 				}
 			});
-			macro.newTask('echo', {
+			macro.add('echo', {
 				options: {
 					echo: str + 'one one two two'
 				}

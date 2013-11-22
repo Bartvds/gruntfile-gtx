@@ -12,8 +12,8 @@ module.exports = function (grunt) {
 
 	gtx.loadTasks('./test/test_tasks');
 
-	gtx.addConfig({
-		pkg: grunt.file.readJSON('package.json'),
+	gtx.config({
+		pkg: gtx.readJSON('package.json', {extra: 'foo'}),
 		bump: {
 			options: {
 				files: ['package.json'],
@@ -26,8 +26,8 @@ module.exports = function (grunt) {
 				tagMessage: 'version %VERSION%',
 				push: true,
 				pushTo: 'origin',
-				// cargo cult magic.. wtf?
-				// options to use with '$ git describe'
+				// cargo cult magic..
+				// "options to use with '$ git describe'"
 				gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
 			}
 		},
@@ -63,30 +63,31 @@ module.exports = function (grunt) {
 
 		macro.log(specPath);
 
-		//TODO need needs a macro.once()
-		macro.runTask('prep');
+		//TODO needs a macro.once()
+		macro.run('prep');
 
-		macro.newTask('clean', [specPath + 'tmp']);
+		macro.add('clean', [specPath + 'tmp']);
 
-		macro.newTask('jshint', {
+		macro.add('jshint', {
 			src: [
 				specPath + '**/*.js'
 			]
 		});
-		macro.newTask('run_grunt', {
+		macro.add('run_grunt', {
 			options: {
 				log: macro.getParam('log', false),
 				logFile: specPath + 'tmp/log.txt',
 				// check exported data
 				parser: 'parseHelp',
 				help: true,
+				stack: true,
 				process: function (result) {
 					grunt.file.write(specPath + 'tmp/tasks.json', JSON.stringify(result.parsed, null, 2));
 				}
 			},
 			src: [specPath + 'Gruntfile.js']
 		});
-		macro.newTask('mochaTest', {
+		macro.add('mochaTest', {
 			src: ['test/spec/init.js', specPath + '**/*.test.js']
 		});
 		macro.tag('test');
@@ -102,6 +103,7 @@ module.exports = function (grunt) {
 	// use the macro
 	gtx.create('basic,concurrent', 'testCase', {log: true});
 	gtx.create('dummy', 'testCase', {log: true});
+	gtx.create('anon', 'testCase', {log: true});
 
 	gtx.alias('test', ['gtx-group:test']);
 	gtx.alias('dev', ['gtx-type:testCase']);
