@@ -91,7 +91,7 @@ module.exports = function (grunt) {
 	gtx.configFor('myPlugin', 'beta', {
 		src: ['./files/beta/*.js']
 	});
-	// generate a unique name (note: this is the basis for the macro feature)
+	// generate a unique name (this is the basis for the macro feature)
 	var name = gtx.configFor('myPlugin', {
 		src: ['./files/gamma/*.js']
 	});
@@ -116,8 +116,6 @@ module.exports = function (grunt) {
 
 		// run a regular task
 		macro.run('myPlugin:dev');
-		// run a regular task, only once for all instances
-		macro.runOnce('jshint:support');
 
 		// use grunt-ts to compile the TypeScript test cases
 		macro.add('ts', {
@@ -169,7 +167,7 @@ module.exports = function (grunt) {
 	// alias is short-cut for grunt.registerTask();
 	gtx.alias('default', ['test']);
 
-	// compile and send to the grunt.initConfig()
+	// compile and send to grunt.initConfig()
 	gtx.finalise();
 };
 ````
@@ -208,17 +206,18 @@ There a lot of ideas for this floating around, from auto-dependency chains and n
 
 Also it would be cool to interface with (Yeoman) generators for easy instancing of build sub modules.
 
-Most of these wait until Grunt reaches `0.5.0` (which will be amazing and solve some of the original problems).
+Most of these wait until Grunt reaches `0.5.0` which solve some of the original problems.
 
 ## API
 
-:x: Yet undocumented. See the examples, the [Gruntfile](https://github.com/Bartvds/gruntfile-gtx/blob/master/Gruntfile.js) and [browse the tests](https://github.com/Bartvds/gruntfile-gtx/tree/master/test/spec) for examples.
+:x: Yet undocumented. See the example the [Gruntfile](https://github.com/Bartvds/gruntfile-gtx/blob/master/Gruntfile.js) and [browse the tests](https://github.com/Bartvds/gruntfile-gtx/tree/master/test/spec) for usaga.
 
 # History
 
-* 0.1.0 - Renamed some methods on gtx api, added `macro.runOnce()`, added `gtx.readJSON`/`gtx.readYAML` helpers
+* 0.1.1 - Fixed some bugs
+* 0.1.0 - Renamed some methods on `gtx` api, added `gtx.readJSON`/`gtx.readYAML` helpers
 * 0.0.8 - Cleaned task, small fixes, bundle [load-grunt-tasks](https://github.com/sindresorhus/load-grunt-tasks) (via `grunt.autoLoad()`)
-* 0.0.5 - Added concurrent-execution to gtx:type
+* 0.0.5 - Added concurrent-execution to `gtx:type`
 * 0.0.3 - NPM push
 * 0.0.2 - Various construction work
 
