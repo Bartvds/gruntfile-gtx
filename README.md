@@ -4,13 +4,13 @@
 
 > Turbo, spoilers and a sunroof for your Gruntfile.
 
-[Grunt](http://www.gruntjs.com) enhancement to make gruntfile task management more dynamic and powerful. Handle demanding task and target setups while keeping your Gruntfile shiny and DRY.
+[Grunt](http://www.gruntjs.com) enhancement to make gruntfile task management more dynamic and powerful. Handle demanding setups while keeping your Gruntfile shiny and DRY.
 
 :warning: The project is pre-alpha, use with care.
 
 ## Features
 
-* Use macros to generate chains of related (anonymous) plugin task instances.
+* Use macros to generate chains of related (semi-anonymous) plugin task instances.
 * Use tags to group and select similar targets.
 * Create new aliases by filtering tasks on various fields.
 * Transparently streamline gruntfile api a little.
@@ -19,7 +19,7 @@ Macros are powerful to define chains of targets for different plugins that toget
 
 ### API Change
 
-Per v0.1.0 the API was updated. The old docs can be found [here](https://github.com/Bartvds/gruntfile-gtx/commit/3472afa6546980e2a00933023c357dd516fcba2c)
+Per `v0.1.0` the API was updated. The old docs can be found [here](https://github.com/Bartvds/gruntfile-gtx/commit/3472afa6546980e2a00933023c357dd516fcba2c)
 
 ## Usage
 
@@ -27,40 +27,36 @@ Check the [Gruntfile](https://github.com/Bartvds/gruntfile-gtx/blob/master/Grunt
 
 ### Example
 
-The following code block shows many of the enhancement features. The macro example is lifted from the [gruntfile of TSD](https://github.com/DefinitelyTyped/tsd/blob/develop-0.5.x/Gruntfile.js) and shows a macro to compile and run separated 'test modules'.
-
-This specific macro aims to make the different project modules easier to run by splitting the test-suite over multiple separate folders. Additionally separate 'modules' can also be run concurrently to cut-down on overall test-duration for IO heavy topics. 
-
-Note how the macro uses a few plugins to setup and run: it would be a hassle to maintain these modules in a regular gruntfile but it is easy when using a macro to build the chains. 
-
 
 ````js
-// export like any Gruntfile
 module.exports = function (grunt) {
 
 	// get the gtx instance
 	var gtx = require('gruntfile-gtx').wrap(grunt);
+````
 
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-	// load some plugins
-
+Load some plugins:
+````js
 	gtx.loadNpm(
 		'myPlugin',
 		'myOtherPlugin'
 	);
+	//classic array
+	gtx.loadNpm([
+		'myPlugin',
+		'myOtherPlugin'
+	]);
+	// folder
 	gtx.loadTasks('./tasks');
-
+	
 	// or attempt to automatically load
 	gtx.loadAuto();
+````
 
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-	// basic configuration
-
-	// build the grunt config like the regular structure
+Build the grunt config like the regular structure :
+````js
 	gtx.config({
-		// blend objects
+		// read and blend objects
 		pkg: gtx.readJSON('package.json', {title: 'foo'}, './conf/overwrite.json'),
 		myPlugin: {
 			options: {
@@ -68,13 +64,11 @@ module.exports = function (grunt) {
 			},
 			main: {
 				src: ['./files/main/*.js']
-				//..
 			}
 		},
 		myOtherPlugin: {
 			main: {
 				src: ['./files/dev/*.js']
-				//..
 			}
 		}
 	});
@@ -83,31 +77,37 @@ module.exports = function (grunt) {
 		myPlugin: {
 			dev: {
 				src: ['./files/dev/*.js']
-				//..
 			}
 		}
 	});
-	// directly set config object
+	// or directly set config objects
 	gtx.configFor('myPlugin', 'beta', {
 		src: ['./files/beta/*.js']
 	});
-	// generate a unique name (this is the basis for the macro feature)
+
+````
+
+Generate a unique name for a configuration (this is the basis for the macro feature)
+````js
 	var name = gtx.configFor('myPlugin', {
 		src: ['./files/gamma/*.js']
 	});
 	// do creative stuff by generating tasks (go wild here)
 	gtx.alias('bulk_run', ['one', 'two', 'three'].map(function (name) {
 		return gtx.addConfigFor('myPlugin', {
-			src: ['./files/' + name + '/*.js']
+			src: ['./files/' + name + '.js']
 		});
 	}));
+````
 
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+This example is lifted from the [gruntfile of TSD](https://github.com/DefinitelyTyped/tsd/blob/develop-0.5.x/Gruntfile.js) and shows a macro to compile and run separated 'test modules'. These can also be run concurrently to cut-down on overall test-duration for IO heavy topics. 
 
-	// define a macro (lifted from practical use-case)
+Note how the macro uses a few plugins to setup and run: it would be a hassle to maintain these modules in a regular gruntfile but it is easy when using a macro to build the instance: 
 
-	// note the macro object is a context with helpers to assemble a new instance named 'id'
+````js
 	gtx.define('module_tester', function (macro, id) {
+		// the macro object is a context with helpers to assemble a new instance named 'id'
+
 		// let's use the instance id to build a shared path
 		var testPath = 'test/modules/' + id + '/';
 
@@ -149,7 +149,10 @@ module.exports = function (grunt) {
 		// optionally run parallel using grunt-concurrent (for now only from gtx-type)
 		concurrent: 4
 	});
+````
 
+Use the macro to make many similar instances:
+````js
 	// use the macro to make many instances
 	gtx.create('git', 'module_tester', null, 'lib');
 	gtx.create('tsd', 'module_tester', {timeout: 10000}, 'lib,core');
@@ -157,10 +160,14 @@ module.exports = function (grunt) {
 		timeout: 20000,
 		http: 8080
 	}, 'lib');
+	// bulk
 	gtx.create('basic,remote,local', 'module_tester');
+	gtx.create(['basic','remote','local'], 'module_tester');
 
-	// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+````
 
+Finish up:
+````js
 	// let's make an alias to run all instances as your $ grunt test
 	gtx.alias('test', ['gtx-type:module_tester']);
 
@@ -179,11 +186,14 @@ $ grunt gtx:git
 $ grunt gtx-group:core
 $ grunt gtx-group:http
 $ grunt gtx-type:module_tester
+
+// bonus: clean all
+$ grunt clean
 ````
 
 ### Additional examples:
 
-* Complex example from [mocha-unfunk-reporter](https://github.com/Bartvds/mocha-unfunk-reporter/blob/abc2732c1c44aca17dc8a7c647aa1f3d7313279e/Gruntfile.js) uses a macro to setup a CLI output bulk tester (this is also a warning about complexity).
+* Complex example from [mocha-unfunk-reporter](https://github.com/Bartvds/mocha-unfunk-reporter/blob/abc2732c1c44aca17dc8a7c647aa1f3d7313279e/Gruntfile.js) uses a macro to setup a CLI output bulk tester (this is also a warning about power and responsibility).
 
 ## Info
 
@@ -198,11 +208,11 @@ $ grunt gtx-type:module_tester
 	*	Split strings on separators to array: `gtx.alias('name', 'one, two, three')`
 	*	Nested arrays are flattened and the content split: `gtx.alias('name', [['aa','bb'], 'cc', ['dd, ee'],'ff,gg,hh'])`  
 	*	Where grunt methods accept a single string the alias will iterate: `gtx.loadNpm([..])`
-*	Gruntfile-gtx was created to solve acute practical problems and grown organically to fit real world needs: no gold-plating but some rough edges made shiny from usage.
+*	Gruntfile-gtx was grown organically: no gold-plating but some edges made shiny from wear.
 
 ## Future
 
-There a lot of ideas for this floating around, from auto-dependency chains and non-repeating macro util tasks, to globbing helpers to generate macro instances and flows adapting to custom cli parameters or env variables. 
+There a lot of ideas for this floating around for this, from auto-dependency chains and non-repeating macro util tasks, to globbing helpers to generate macro instances and flows adapting to custom cli parameters or env variables. 
 
 Also it would be cool to interface with (Yeoman) generators for easy instancing of build sub modules.
 
@@ -210,13 +220,13 @@ Most of these wait until Grunt reaches `0.5.0` which solve some of the original 
 
 ## API
 
-:x: Yet undocumented. See the example the [Gruntfile](https://github.com/Bartvds/gruntfile-gtx/blob/master/Gruntfile.js) and [browse the tests](https://github.com/Bartvds/gruntfile-gtx/tree/master/test/spec) for usaga.
+:x: Yet undocumented. See the examples, the [Gruntfile](https://github.com/Bartvds/gruntfile-gtx/blob/master/Gruntfile.js) and [the tests](https://github.com/Bartvds/gruntfile-gtx/tree/master/test/spec) for usage.
 
 # History
 
 * 0.1.1 - Fixed some bugs
 * 0.1.0 - Renamed some methods on `gtx` api, added `gtx.readJSON`/`gtx.readYAML` helpers
-* 0.0.8 - Cleaned task, small fixes, bundle [load-grunt-tasks](https://github.com/sindresorhus/load-grunt-tasks) (via `grunt.autoLoad()`)
+* 0.0.8 - Cleaned task, small fixes, bundle [load-grunt-tasks](https://github.com/sindresorhus/load-grunt-tasks) (via `grunt.loadAuto()`)
 * 0.0.5 - Added concurrent-execution to `gtx:type`
 * 0.0.3 - NPM push
 * 0.0.2 - Various construction work

@@ -4,12 +4,7 @@ module.exports = function (grunt) {
 	var gtx = require('./lib/gtx').wrap(grunt);
 	// gtx.debug = true;
 
-	gtx.loadNpm('grunt-mocha-test');
-	gtx.loadNpm('grunt-contrib-jshint');
-	gtx.loadNpm('grunt-contrib-clean');
-	gtx.loadNpm('grunt-run-grunt');
-	gtx.loadNpm('grunt-bump');
-
+	gtx.loadAuto();
 	gtx.loadTasks('./test/test_tasks');
 
 	gtx.config({
@@ -110,7 +105,6 @@ module.exports = function (grunt) {
 
 	gtx.alias('edit_01', 'gtx:basic');
 	gtx.alias('edit_02', 'gtx:dummy');
-
 
 	//gtx.debug = true;
 	gtx.finalise();
