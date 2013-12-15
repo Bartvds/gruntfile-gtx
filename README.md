@@ -212,9 +212,7 @@ $ grunt clean
 
 ## Future
 
-There a lot of ideas for this floating around for this, from auto-dependency chains and non-repeating macro util tasks, to globbing helpers to generate macro instances and flows adapting to custom cli parameters or env variables. 
-
-Also it would be cool to interface with (Yeoman) generators for easy instancing of build sub modules.
+There a lot of ideas for this floating around for this, from auto-dependency chains and non-repeating macro util tasks, to globbing helpers to generate macro instances and flows adapting to custom cli parameters or env variables. Also it would be cool to interface with (Yeoman) generators for easy instancing of build sub modules.
 
 Most of these wait until Grunt reaches `0.5.0` which solve some of the original problems.
 
