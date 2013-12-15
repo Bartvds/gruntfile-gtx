@@ -9,23 +9,6 @@ module.exports = function (grunt) {
 
 	gtx.config({
 		pkg: gtx.readJSON('package.json', {extra: 'foo'}),
-		bump: {
-			options: {
-				files: ['package.json'],
-				updateConfigs: ['pkg'],
-				commit: true,
-				commitMessage: 'release %VERSION%',
-				commitFiles: ['-a'], // '-a' for all files
-				createTag: true,
-				tagName: '%VERSION%',
-				tagMessage: 'version %VERSION%',
-				push: true,
-				pushTo: 'origin',
-				// cargo cult magic..
-				// "options to use with '$ git describe'"
-				gitDescribeOptions: '--tags --always --abbrev=1 --dirty=-d'
-			}
-		},
 		clean: {
 			tmp: ['tmp/**/*', 'test/tmp**/*']
 		},
