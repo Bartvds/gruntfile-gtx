@@ -49,11 +49,11 @@ Load some plugins:
 	// folder
 	gtx.loadTasks('./tasks');
 	
-	// or attempt to automatically load
+	// alternately load automatically (from ./tasks and ./node_modules)
 	gtx.loadAuto();
 ````
 
-Build the grunt config like the regular structure :
+Build the grunt config like the regular structure:
 ````js
 	gtx.config({
 		// read and blend objects
@@ -84,7 +84,19 @@ Build the grunt config like the regular structure :
 	gtx.configFor('myPlugin', 'beta', {
 		src: ['./files/beta/*.js']
 	});
+````
 
+Define tasks:
+````js
+	// define a simple task
+	gtx.call('say', function() {
+		grunt.log.writeln('hello!');
+	});
+
+	// define a multi-task
+	gtx.multi('alpha_multi', function() {
+		grunt.log.writeln('hello!');
+	});
 ````
 
 Generate a unique name for a configuration (this is the basis for the macro feature)
@@ -163,13 +175,22 @@ Use the macro to make many similar instances:
 	// bulk
 	gtx.create('basic,remote,local', 'module_tester');
 	gtx.create(['basic','remote','local'], 'module_tester');
+````
 
+Mix functions and id's:
+````js
+	// mix calls in alias
+	gtx.alias('mix', ['alpha:one', 'bravo:two', function() {
+		grunt.log.writeln('roger');
+	}, 'charlie', function() {
+		grunt.log.writeln('roger');
+	}]);
 ````
 
 Finish up:
 ````js
 	// let's make an alias to run all instances as your $ grunt test
-	gtx.alias('test', ['gtx-type:module_tester']);
+	gtx.alias('test', 'gtx-type:module_tester');
 
 	// alias is short-cut for grunt.registerTask();
 	gtx.alias('default', ['test']);
@@ -222,8 +243,9 @@ Most of these wait until Grunt reaches `0.5.0` which solve some of the original 
 
 # History
 
+* 0.2.1 - Added `macro.call()`, `gtx.call()`, `gtx.multi()`, added function support to `gtx.alias()`.
 * 0.1.1 - Fixed some bugs
-* 0.1.0 - Renamed some methods on `gtx` api, added `gtx.readJSON`/`gtx.readYAML` helpers
+* 0.1.0 - Renamed some methods on `gtx` api, added `gtx.readJSON()`/`gtx.readYAML()` helpers
 * 0.0.8 - Cleaned task, small fixes, bundle [load-grunt-tasks](https://github.com/sindresorhus/load-grunt-tasks) (via `grunt.loadAuto()`)
 * 0.0.5 - Added concurrent-execution to `gtx:type`
 * 0.0.3 - NPM push
