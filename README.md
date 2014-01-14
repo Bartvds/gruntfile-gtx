@@ -243,6 +243,7 @@ Most of these wait until Grunt reaches `0.5.0` which solve some of the original 
 
 # History
 
+* 0.2.2 - Output fix.
 * 0.2.1 - Added `macro.call()`, `gtx.call()`, `gtx.multi()`, added function support to `gtx.alias()`.
 * 0.1.1 - Fixed some bugs
 * 0.1.0 - Renamed some methods on `gtx` api, added `gtx.readJSON()`/`gtx.readYAML()` helpers
