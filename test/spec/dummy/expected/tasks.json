@@ -57,9 +57,7 @@
 				"gtx-log:<015>"
 			],
 			"gtx-type:soundCheck": [
-				"gtx:Hank",
-				"gtx:Jimmy",
-				"gtx:Albert"
+				"<016-conc>"
 			]
 		}
 	}

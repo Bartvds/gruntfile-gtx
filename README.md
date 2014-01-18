@@ -95,8 +95,20 @@ Define tasks:
 
 	// define a multi-task
 	gtx.multi('alpha_multi', function() {
+		var options = this.options({
+			//..
+		});
 		grunt.log.writeln('hello!');
 	});
+````
+
+Run tasks:
+````js	
+	// named serial
+	gtx.alias('many', ['one', 'two', 'three']);
+
+	// named concurrent (max cpu cores)
+	gtx.concurrent('many', ['one', 'two', 'three']);
 ````
 
 Generate a unique name for a configuration (this is the basis for the macro feature)
@@ -104,12 +116,24 @@ Generate a unique name for a configuration (this is the basis for the macro feat
 	var name = gtx.configFor('myPlugin', {
 		src: ['./files/gamma/*.js']
 	});
+
 	// do creative stuff by generating tasks (go wild here)
 	gtx.alias('bulk_run', ['one', 'two', 'three'].map(function (name) {
-		return gtx.addConfigFor('myPlugin', {
+		return gtx.configFor('myPlugin', {
 			src: ['./files/' + name + '.js']
 		});
 	}));
+
+	// generated tasks from parallel() to run concurrently
+	gtx.alias('many', ['one', gtx.parallel('two', 'three')]);
+
+	// generated tasks from serial()
+	gtx.alias('more', ['one', 
+		gtx.parallel(
+			gtx.serial('two', 'three'),
+			gtx.serial('four', 'five'))
+		)
+	]);
 ````
 
 This example is lifted from the [gruntfile of TSD](https://github.com/DefinitelyTyped/tsd/blob/develop-0.5.x/Gruntfile.js) and shows a macro to compile and run separated 'test modules'. These can also be run concurrently to cut-down on overall test-duration for IO heavy topics. 
@@ -243,6 +267,7 @@ Most of these wait until Grunt reaches `0.5.0` which solve some of the original 
 
 # History
 
+* 0.2.3 - Fixed `gtx.multi()`, added `gtx.concurrent()`, `gtx.serial()`, `gtx.parallel()`
 * 0.2.2 - Output fix.
 * 0.2.1 - Added `macro.call()`, `gtx.call()`, `gtx.multi()`, added function support to `gtx.alias()`.
 * 0.1.1 - Fixed some bugs

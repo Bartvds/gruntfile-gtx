@@ -113,23 +113,7 @@
 				"gtx:mike"
 			],
 			"gtx-type:echoList": [
-				"concurrent:<057-echoList>"
-			],
-			"gtx-type:echoList:single": [
-				"gtx:alpha",
-				"gtx:bravo",
-				"gtx:charlie",
-				"gtx:delta",
-				"gtx:echo",
-				"gtx:foxtrot",
-				"gtx:golf",
-				"gtx:hotel",
-				"gtx:india",
-				"gtx:tango",
-				"gtx:victory",
-				"gtx:oscar",
-				"gtx:mike",
-				"gtx:xray"
+				"<057-conc>"
 			]
 		}
 	}
