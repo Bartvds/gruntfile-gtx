@@ -267,6 +267,7 @@ Most of these wait until Grunt reaches `0.5.0` which solve some of the original 
 
 # History
 
+* 0.2.5 - Fixed `gtx.call()` and `macro.call()`.
 * 0.2.3 - Fixed `gtx.multi()`, added `gtx.concurrent()`, `gtx.serial()`, `gtx.parallel()`
 * 0.2.2 - Output fix.
 * 0.2.1 - Added `macro.call()`, `gtx.call()`, `gtx.multi()`, added function support to `gtx.alias()`.
