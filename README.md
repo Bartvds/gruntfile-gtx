@@ -6,8 +6,6 @@
 
 [Grunt](http://www.gruntjs.com) enhancement to make gruntfile task management more dynamic and powerful. Handle demanding setups while keeping your Gruntfile shiny and DRY.
 
-:warning: The project is pre-alpha, use with care.
-
 ## Features
 
 * Use macros to generate chains of related (semi-anonymous) plugin task instances.
@@ -263,10 +261,11 @@ Most of these wait until Grunt reaches `0.5.0` which solve some of the original 
 
 ## API
 
-:x: Yet undocumented. See the examples, the [Gruntfile](https://github.com/Bartvds/gruntfile-gtx/blob/master/Gruntfile.js) and [the tests](https://github.com/Bartvds/gruntfile-gtx/tree/master/test/spec) for usage.
+See above usage examples and look at the [Gruntfile](https://github.com/Bartvds/gruntfile-gtx/blob/master/Gruntfile.js) and [the tests](https://github.com/Bartvds/gruntfile-gtx/tree/master/test/spec) for more usage.
 
 # History
 
+* 0.3.0 - Updated dependencies (thanks @boneskull)
 * 0.2.5 - Fixed `gtx.call()` and `macro.call()`.
 * 0.2.3 - Fixed `gtx.multi()`, added `gtx.concurrent()`, `gtx.serial()`, `gtx.parallel()`
 * 0.2.2 - Output fix.

@@ -1,6 +1,6 @@
 {
   "name": "gruntfile-gtx",
-  "version": "0.2.6",
+  "version": "0.3.0",
   "description": "Turbo, spoilers and a sunroof for your Gruntfile",
   "author": {
     "name": "Bart van der Schoor",
@@ -37,14 +37,13 @@
     "test": "grunt test"
   },
   "dependencies": {
-    "load-grunt-tasks": "~0.2.0",
-    "grunt-concurrent": "~0.5.0"
+    "grunt-concurrent": "~0.5.0",
+    "load-grunt-tasks": "^0.4.0"
   },
   "devDependencies": {
     "grunt": "~0.4.1",
     "mkdirp": "0.3.5",
     "grunt-cli": "~0.1",
-    "grunt-concurrent": "~0.5.0",
     "grunt-wait": "~0.1.0",
     "grunt-mocha-test": "~0.5.0",
     "mocha-unfunk-reporter": "~0.2",
