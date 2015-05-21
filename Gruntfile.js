@@ -9,6 +9,14 @@ module.exports = function (grunt) {
 
 	gtx.config({
 		pkg: gtx.readJSON('package.json', {extra: 'foo'}),
+		devUpdate: {
+			main: {
+				options: {
+					semver: false,
+					updateType: 'prompt'
+				}
+			}
+		},
 		clean: {
 			tmp: ['tmp/**/*', 'test/tmp**/*']
 		},
