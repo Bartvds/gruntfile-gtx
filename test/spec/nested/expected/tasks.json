@@ -1,0 +1,26 @@
+{
+	"parseHelp": {
+		"task": {
+			"gtx-log": "Log values to console"
+		},
+		"alias": {
+			"gtx:hey-bro": ["echo:hey-bro"],
+			"gtx:hey-bro-loud": ["echo:hey-bro-loud"],
+			"gtx:helllooooo-ladies": ["echo:helllooooo-ladies"],
+			"gtx:helllooooo-ladies-loud": ["echo:helllooooo-ladies-loud"],
+			"gtx-group:male": ["gtx:hey-bro"],
+			"gtx-group:informal": [
+				"gtx:hey-bro",
+				"gtx:helllooooo-ladies"
+			],
+			"gtx-group:female": ["gtx:helllooooo-ladies"],
+			"gtx-group:male-loud": ["gtx:hey-bro-loud"],
+			"gtx-group:informal-loud": [
+				"gtx:hey-bro-loud",
+				"gtx:helllooooo-ladies-loud"
+			],
+			"gtx-group:female-loud": ["gtx:helllooooo-ladies-loud"],
+			"gtx-type:greeting": ["<001-conc>"]
+		}
+	}
+}

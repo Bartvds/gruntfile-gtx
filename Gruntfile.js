@@ -9,6 +9,14 @@ module.exports = function (grunt) {
 
 	gtx.config({
 		pkg: gtx.readJSON('package.json', {extra: 'foo'}),
+		devUpdate: {
+			main: {
+				options: {
+					semver: false,
+					updateType: 'prompt'
+				}
+			}
+		},
 		clean: {
 			tmp: ['tmp/**/*', 'test/tmp**/*']
 		},
@@ -82,6 +90,7 @@ module.exports = function (grunt) {
 	gtx.create('basic,concurrent', 'testCase', {log: true});
 	gtx.create('dummy', 'testCase', {log: true});
 	gtx.create('anon', 'testCase', {log: true});
+	gtx.create('nested', 'testCase', {log: true});
 
 	gtx.alias('test', ['gtx-group:test']);
 	gtx.alias('dev', ['gtx-type:testCase']);
