@@ -1,6 +1,5 @@
 .npmignore
 .gitignore
-.gitmodules
 .travis.yml
 .jshintrc
 
@@ -9,8 +8,10 @@ component.json
 
 Gruntfile.js
 
+/.librarian
 /.vagrant
 /cookbooks
+/coverage
 /Vagrantfile
 /docs
 

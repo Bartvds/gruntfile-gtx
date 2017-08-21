@@ -1,0 +1,54 @@
+v0.3.0
+  date: 24-05-2014
+  changes:
+    - Updated dependencies (thanks @boneskull)
+
+v0.2.5
+  date: 22-02-2014
+  changes:
+    - Fixed `gtx.call()` and `macro.call()`.
+
+v0.2.3
+  date: 18-01-2014
+  changes:
+    - Fixed `gtx.multi()`, added `gtx.concurrent()`, `gtx.serial()`, `gtx.parallel()`
+
+v0.2.2
+  date: 14-01-2014
+  changes:
+    - Output fix.
+
+v0.2.1
+  date: 18-12-2013
+  changes:
+    - Added `macro.call()`, `gtx.call()`, `gtx.multi()`, added function support to `gtx.alias()`.
+
+v0.1.1
+  date: 01-12-2013
+  changes:
+    - Fixed some bugs
+
+v0.1.0
+  date: 22-11-2013
+  changes:
+    - Renamed some methods on `gtx` api, added `gtx.readJSON()`/`gtx.readYAML()` helpers
+
+v0.0.8
+  date: 18-11-2013
+  changes:
+    - Cleaned task, small fixes, bundle [load-grunt-tasks](https://github.com/sindresorhus/load-grunt-tasks) (via `grunt.loadAuto()`)
+
+v0.0.5
+  date: 22-09-2013
+  changes:
+    - Added concurrent-execution to `gtx:type`
+
+v0.0.3
+  date: N/A
+  changes:
+    - NPM push
+
+v0.0.2
+  date: N/A
+  changes:
+    - Various construction work

@@ -1,10 +1,12 @@
 # gruntfile-gtx
 
-[![Build Status](https://secure.travis-ci.org/Bartvds/gruntfile-gtx.png?branch=master)](http://travis-ci.org/Bartvds/gruntfile-gtx) [![Dependency Status](https://gemnasium.com/Bartvds/gruntfile-gtx.png)](https://gemnasium.com/Bartvds/gruntfile-gtx) [![NPM version](https://badge.fury.io/js/gruntfile-gtx.png)](http://badge.fury.io/js/gruntfile-gtx)
-
+[![Build Status](https://travis-ci.org/Bartvds/gruntfile-gtx.svg?branch=master)](https://travis-ci.org/Bartvds/gruntfile-gtx)
+[![Dependency Status](https://gemnasium.com/badges/github.com/Bartvds/gruntfile-gtx.svg)](https://gemnasium.com/github.com/Bartvds/gruntfile-gtx)
+[![npm version](https://badge.fury.io/js/gruntfile-gtx.svg)](https://badge.fury.io/js/gruntfile-gtx)
 > Turbo, spoilers and a sunroof for your Gruntfile.
 
 [Grunt](http://www.gruntjs.com) enhancement to make gruntfile task management more dynamic and powerful. Handle demanding setups while keeping your Gruntfile shiny and DRY.
+
 
 ## Features
 
@@ -19,12 +21,12 @@ Macros are powerful to define chains of targets for different plugins that toget
 
 Per `v0.1.0` the API was updated. The old docs can be found [here](https://github.com/Bartvds/gruntfile-gtx/commit/3472afa6546980e2a00933023c357dd516fcba2c)
 
+
 ## Usage
 
 Check the [Gruntfile](https://github.com/Bartvds/gruntfile-gtx/blob/master/Gruntfile.js) for practical [dogfooding](https://en.wikipedia.org/wiki/Dogfooding) and [browse the tests](https://github.com/Bartvds/gruntfile-gtx/tree/master/test/spec) for some more options.
 
 ### Example
-
 
 ````js
 module.exports = function (grunt) {
@@ -238,6 +240,7 @@ $ grunt clean
 
 * Complex example from [mocha-unfunk-reporter](https://github.com/Bartvds/mocha-unfunk-reporter/blob/abc2732c1c44aca17dc8a7c647aa1f3d7313279e/Gruntfile.js) uses a macro to setup a CLI output bulk tester (this is also a warning about power and responsibility).
 
+
 ## Info
 
 *	Your gruntfile is still a regular gruntfile to run by `grunt-cli`. 
@@ -253,43 +256,49 @@ $ grunt clean
 	*	Where grunt methods accept a single string the alias will iterate: `gtx.loadNpm([..])`
 *	Gruntfile-gtx was grown organically: no gold-plating but some edges made shiny from wear.
 
+
 ## Future
 
 There a lot of ideas for this floating around for this, from auto-dependency chains and non-repeating macro util tasks, to globbing helpers to generate macro instances and flows adapting to custom cli parameters or env variables. Also it would be cool to interface with (Yeoman) generators for easy instancing of build sub modules.
 
 Most of these wait until Grunt reaches `0.5.0` which solve some of the original problems.
 
+
 ## API
 
 See above usage examples and look at the [Gruntfile](https://github.com/Bartvds/gruntfile-gtx/blob/master/Gruntfile.js) and [the tests](https://github.com/Bartvds/gruntfile-gtx/tree/master/test/spec) for more usage.
 
-# History
 
-* 0.3.0 - Updated dependencies (thanks @boneskull)
-* 0.2.5 - Fixed `gtx.call()` and `macro.call()`.
-* 0.2.3 - Fixed `gtx.multi()`, added `gtx.concurrent()`, `gtx.serial()`, `gtx.parallel()`
-* 0.2.2 - Output fix.
-* 0.2.1 - Added `macro.call()`, `gtx.call()`, `gtx.multi()`, added function support to `gtx.alias()`.
-* 0.1.1 - Fixed some bugs
-* 0.1.0 - Renamed some methods on `gtx` api, added `gtx.readJSON()`/`gtx.readYAML()` helpers
-* 0.0.8 - Cleaned task, small fixes, bundle [load-grunt-tasks](https://github.com/sindresorhus/load-grunt-tasks) (via `grunt.loadAuto()`)
-* 0.0.5 - Added concurrent-execution to `gtx:type`
-* 0.0.3 - NPM push
-* 0.0.2 - Various construction work
+## Release History
+
+See the [CHANGELOG](/CHANGELOG).
+
 
 ## Contributing
 
 Contributions are welcome (idiomatic, clean etc) but best to post a proposal in the [Issues](https://github.com/Bartvds/gruntfile-gtx/issues) before making big changes. 
 
-## Vagrant
 
-There is a Vagrantfile and set of Chef cookbooks to use with [Vagrant](http://www.vagrantup.com) for easy testing on a Linux VM. It will install a node.js from package, install the dependencies and enable grunt.
+## Development
+
+### Requirements
+
+  - [RVM](https://rvm.io/)  
+  - [Vagrant](https://www.vagrantup.com/)  
+  - [Bundler](http://bundler.io/)  
+  - [Vagrant Omnibus](https://github.com/chef/vagrant-omnibus)  
+
+There is a Vagrantfile and set of Chef cookbooks to use with Vagrant for easy testing on a Linux VM. It will install a node.js from [nvm](https://github.com/creationix/nvm), install the dependencies and enable grunt.  
+
+```
+$ bundle install
+$ librarian-chef install
+$ vagrant up
+```
+
 
 ## License
 
-Copyright (c) 2013 Bart van der Schoor
+Copyright (c) 2013-2017 Bart van der Schoor
 
 Licensed under the MIT license.
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/Bartvds/gruntfile-gtx/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
-

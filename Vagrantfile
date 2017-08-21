@@ -12,16 +12,6 @@ Vagrant.configure("2") do |config|
     chef.cookbooks_path = ["tmp/cookbooks", "cookbooks"]
 
     chef.add_recipe "main"
-
-    # chef.json = {
-    #   "nvm" => {
-
-    #   },
-    #   "nodejs" => {
-    #     "version" => "0.8",
-    #     "install_method" => "package"
-    #   }
-    # } 
   end
 
   config.omnibus.chef_version = '13.3.42'
