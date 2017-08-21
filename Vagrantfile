@@ -8,16 +8,21 @@ Vagrant.configure("2") do |config|
   config.vm.box_url = "http://files.vagrantup.com/precise32.box"
 
   config.vm.provision :chef_solo do |chef|
-    # chef.log_level = :debug
-    chef.cookbooks_path = "cookbooks"
+    chef.log_level = :debug
+    chef.cookbooks_path = ["tmp/cookbooks", "cookbooks"]
 
     chef.add_recipe "main"
 
-    chef.json = {
-      "nodejs" => {
-        "version" => "0.8",
-        "install_method" => "package"
-      }
-    }
+    # chef.json = {
+    #   "nvm" => {
+
+    #   },
+    #   "nodejs" => {
+    #     "version" => "0.8",
+    #     "install_method" => "package"
+    #   }
+    # } 
   end
+
+  config.omnibus.chef_version = '13.3.42'
 end

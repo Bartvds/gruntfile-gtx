@@ -6,3 +6,8 @@ npm-debug.log
 /.vagrant
 
 tmp/
+
+*.sublime-project
+*.sublime-workspace
+
+*.lock
