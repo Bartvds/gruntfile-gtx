@@ -23,9 +23,9 @@ module.exports = function (grunt) {
     macro.log('Test! ' + macro.getParam('message'));
   });
 
-  gtx.alias('default', ['echo', gtx.anon('simple_macro', {message: "hello!"})]);
+  gtx.alias('default', ['echo', gtx.anon('simple_macro', {message: 'hello!'})]);
 
-  grunt.log.writeln(gtx.anon('simple_macro', {message: "hello!"}));
+  grunt.log.writeln(gtx.anon('simple_macro', {message: 'hello!'}));
 
   gtx.finalise();
 };
