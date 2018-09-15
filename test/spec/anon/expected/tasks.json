@@ -1,16 +1,16 @@
 {
-	"parseHelp": {
-		"task": {
-			"gtx-log": "Log values to console"
-		},
-		"alias": {
-			"default": [
-				"echo",
-				"<simple_macro-001>"
-			],
-			"gtx-type:simple_macro": [
-				"<005-conc>"
-			]
-		}
-	}
+  "parseHelp": {
+    "task": {
+      "gtx-log": "Log values to console"
+    },
+    "alias": {
+      "default": [
+        "echo",
+        "<simple_macro-001>"
+      ],
+      "gtx-type:simple_macro": [
+        "<005-conc>"
+      ]
+    }
+  }
 }
