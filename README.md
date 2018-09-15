@@ -1,8 +1,9 @@
 # gruntfile-gtx
 
 [![Build Status](https://travis-ci.org/Bartvds/gruntfile-gtx.svg?branch=master)](https://travis-ci.org/Bartvds/gruntfile-gtx)
-[![Dependency Status](https://gemnasium.com/badges/github.com/Bartvds/gruntfile-gtx.svg)](https://gemnasium.com/github.com/Bartvds/gruntfile-gtx)
-[![npm version](https://badge.fury.io/js/gruntfile-gtx.svg)](https://badge.fury.io/js/gruntfile-gtx)
+[![Coverage Status](https://coveralls.io/repos/github/Bartvds/gruntfile-gtx/badge.svg?branch=master)](https://coveralls.io/github/Bartvds/gruntfile-gtx?branch=master)
+[![Dependency Status](hhttps://david-dm.org/killmenot/Bartvds/gruntfile-gtx.svg)](https://david-dm.org/killmenot/Bartvds/gruntfile-gtx.svg)
+[![npm version](https://img.shields.io/npm/v/gruntfile-gtx.svg)](https://img.shields.io/npm/v/gruntfile-gtx.svg)
 > Turbo, spoilers and a sunroof for your Gruntfile.
 
 [Grunt](http://www.gruntjs.com) enhancement to make gruntfile task management more dynamic and powerful. Handle demanding setups while keeping your Gruntfile shiny and DRY.
@@ -31,109 +32,109 @@ Check the [Gruntfile](https://github.com/Bartvds/gruntfile-gtx/blob/master/Grunt
 ````js
 module.exports = function (grunt) {
 
-	// get the gtx instance
-	var gtx = require('gruntfile-gtx').wrap(grunt);
+  // get the gtx instance
+  var gtx = require('gruntfile-gtx').wrap(grunt);
 ````
 
 Load some plugins:
 ````js
-	gtx.loadNpm(
-		'myPlugin',
-		'myOtherPlugin'
-	);
-	//classic array
-	gtx.loadNpm([
-		'myPlugin',
-		'myOtherPlugin'
-	]);
-	// folder
-	gtx.loadTasks('./tasks');
-	
-	// alternately load automatically (from ./tasks and ./node_modules)
-	gtx.loadAuto();
+  gtx.loadNpm(
+    'myPlugin',
+    'myOtherPlugin'
+  );
+  //classic array
+  gtx.loadNpm([
+    'myPlugin',
+    'myOtherPlugin'
+  ]);
+  // folder
+  gtx.loadTasks('./tasks');
+  
+  // alternately load automatically (from ./tasks and ./node_modules)
+  gtx.loadAuto();
 ````
 
 Build the grunt config like the regular structure:
 ````js
-	gtx.config({
-		// read and blend objects
-		pkg: gtx.readJSON('package.json', {title: 'foo'}, './conf/overwrite.json'),
-		myPlugin: {
-			options: {
-				//..
-			},
-			main: {
-				src: ['./files/main/*.js']
-			}
-		},
-		myOtherPlugin: {
-			main: {
-				src: ['./files/dev/*.js']
-			}
-		}
-	});
-	// ... but split over multiple statements
-	gtx.config({
-		myPlugin: {
-			dev: {
-				src: ['./files/dev/*.js']
-			}
-		}
-	});
-	// or directly set config objects
-	gtx.configFor('myPlugin', 'beta', {
-		src: ['./files/beta/*.js']
-	});
+  gtx.config({
+    // read and blend objects
+    pkg: gtx.readJSON('package.json', {title: 'foo'}, './conf/overwrite.json'),
+    myPlugin: {
+      options: {
+        //..
+      },
+      main: {
+        src: ['./files/main/*.js']
+      }
+    },
+    myOtherPlugin: {
+      main: {
+        src: ['./files/dev/*.js']
+      }
+    }
+  });
+  // ... but split over multiple statements
+  gtx.config({
+    myPlugin: {
+      dev: {
+        src: ['./files/dev/*.js']
+      }
+    }
+  });
+  // or directly set config objects
+  gtx.configFor('myPlugin', 'beta', {
+    src: ['./files/beta/*.js']
+  });
 ````
 
 Define tasks:
 ````js
-	// define a simple task
-	gtx.call('say', function() {
-		grunt.log.writeln('hello!');
-	});
+  // define a simple task
+  gtx.call('say', function() {
+    grunt.log.writeln('hello!');
+  });
 
-	// define a multi-task
-	gtx.multi('alpha_multi', function() {
-		var options = this.options({
-			//..
-		});
-		grunt.log.writeln('hello!');
-	});
+  // define a multi-task
+  gtx.multi('alpha_multi', function() {
+    var options = this.options({
+      //..
+    });
+    grunt.log.writeln('hello!');
+  });
 ````
 
 Run tasks:
-````js	
-	// named serial
-	gtx.alias('many', ['one', 'two', 'three']);
+````js  
+  // named serial
+  gtx.alias('many', ['one', 'two', 'three']);
 
-	// named concurrent (max cpu cores)
-	gtx.concurrent('many', ['one', 'two', 'three']);
+  // named concurrent (max cpu cores)
+  gtx.concurrent('many', ['one', 'two', 'three']);
 ````
 
 Generate a unique name for a configuration (this is the basis for the macro feature)
 ````js
-	var name = gtx.configFor('myPlugin', {
-		src: ['./files/gamma/*.js']
-	});
+  var name = gtx.configFor('myPlugin', {
+    src: ['./files/gamma/*.js']
+  });
 
-	// do creative stuff by generating tasks (go wild here)
-	gtx.alias('bulk_run', ['one', 'two', 'three'].map(function (name) {
-		return gtx.configFor('myPlugin', {
-			src: ['./files/' + name + '.js']
-		});
-	}));
+  // do creative stuff by generating tasks (go wild here)
+  gtx.alias('bulk_run', ['one', 'two', 'three'].map(function (name) {
+    return gtx.configFor('myPlugin', {
+      src: ['./files/' + name + '.js']
+    });
+  }));
 
-	// generated tasks from parallel() to run concurrently
-	gtx.alias('many', ['one', gtx.parallel('two', 'three')]);
+  // generated tasks from parallel() to run concurrently
+  gtx.alias('many', ['one', gtx.parallel('two', 'three')]);
 
-	// generated tasks from serial()
-	gtx.alias('more', ['one', 
-		gtx.parallel(
-			gtx.serial('two', 'three'),
-			gtx.serial('four', 'five'))
-		)
-	]);
+  // generated tasks from serial()
+  gtx.alias('more', ['one', 
+    gtx.parallel(
+      gtx.serial('two', 'three'),
+      gtx.serial('four', 'five'))
+    )
+  ]);
 ````
 
 This example is lifted from the [gruntfile of TSD](https://github.com/DefinitelyTyped/tsd/blob/develop-0.5.x/Gruntfile.js) and shows a macro to compile and run separated 'test modules'. These can also be run concurrently to cut-down on overall test-duration for IO heavy topics. 
@@ -141,86 +142,86 @@ This example is lifted from the [gruntfile of TSD](https://github.com/Definitely
 Note how the macro uses a few plugins to setup and run: it would be a hassle to maintain these modules in a regular gruntfile but it is easy when using a macro to build the instance: 
 
 ````js
-	gtx.define('module_tester', function (macro, id) {
-		// the macro object is a context with helpers to assemble a new instance named 'id'
+  gtx.define('module_tester', function (macro, id) {
+    // the macro object is a context with helpers to assemble a new instance named 'id'
 
-		// let's use the instance id to build a shared path
-		var testPath = 'test/modules/' + id + '/';
+    // let's use the instance id to build a shared path
+    var testPath = 'test/modules/' + id + '/';
 
-		// use grunt-contrib-clean to remove old test output
-		macro.add('clean', [testPath + 'tmp/**/*']);
+    // use grunt-contrib-clean to remove old test output
+    macro.add('clean', [testPath + 'tmp/**/*']);
 
-		// run a regular task
-		macro.run('myPlugin:dev');
+    // run a regular task
+    macro.run('myPlugin:dev');
 
-		// use grunt-ts to compile the TypeScript test cases
-		macro.add('ts', {
-			options: {},
-			src: [testPath + 'src/**/*.ts'],
-			out: testPath + 'tmp/' + id + '.test.js'
-		});
-		// use grunt-tslint
-		macro.add('tslint', {
-			src: [testPath + 'src/**/*.ts']
-		});
-		// optionally spawn a grunt-contrib-connect
-		if (macro.getParam('http', 0) > 0) {
-			macro.add('connect', {
-				options: {
-					port: macro.getParam('http'),
-					base: testPath + 'www/'
-				}
-			});
-			//tag for easy retrieval
-			macro.tag('http');
-		}
-		// run grunt-mocha-test on the compiled test cases
-		macro.add('mochaTest', {
-			options: {
-				timeout: macro.getParam('timeout', 2000)
-			},
-			src: [testPath + 'tmp/**/*.test.js']
-		});
-	}, {
-		// optionally run parallel using grunt-concurrent (for now only from gtx-type)
-		concurrent: 4
-	});
+    // use grunt-ts to compile the TypeScript test cases
+    macro.add('ts', {
+      options: {},
+      src: [testPath + 'src/**/*.ts'],
+      out: testPath + 'tmp/' + id + '.test.js'
+    });
+    // use grunt-tslint
+    macro.add('tslint', {
+      src: [testPath + 'src/**/*.ts']
+    });
+    // optionally spawn a grunt-contrib-connect
+    if (macro.getParam('http', 0) > 0) {
+      macro.add('connect', {
+        options: {
+          port: macro.getParam('http'),
+          base: testPath + 'www/'
+        }
+      });
+      //tag for easy retrieval
+      macro.tag('http');
+    }
+    // run grunt-mocha-test on the compiled test cases
+    macro.add('mochaTest', {
+      options: {
+        timeout: macro.getParam('timeout', 2000)
+      },
+      src: [testPath + 'tmp/**/*.test.js']
+    });
+  }, {
+    // optionally run parallel using grunt-concurrent (for now only from gtx-type)
+    concurrent: 4
+  });
 ````
 
 Use the macro to make many similar instances:
 ````js
-	// use the macro to make many instances
-	gtx.create('git', 'module_tester', null, 'lib');
-	gtx.create('tsd', 'module_tester', {timeout: 10000}, 'lib,core');
-	gtx.create('http', 'module_tester', {
-		timeout: 20000,
-		http: 8080
-	}, 'lib');
-	// bulk
-	gtx.create('basic,remote,local', 'module_tester');
-	gtx.create(['basic','remote','local'], 'module_tester');
+  // use the macro to make many instances
+  gtx.create('git', 'module_tester', null, 'lib');
+  gtx.create('tsd', 'module_tester', {timeout: 10000}, 'lib,core');
+  gtx.create('http', 'module_tester', {
+    timeout: 20000,
+    http: 8080
+  }, 'lib');
+  // bulk
+  gtx.create('basic,remote,local', 'module_tester');
+  gtx.create(['basic','remote','local'], 'module_tester');
 ````
 
 Mix functions and id's:
 ````js
-	// mix calls in alias
-	gtx.alias('mix', ['alpha:one', 'bravo:two', function() {
-		grunt.log.writeln('roger');
-	}, 'charlie', function() {
-		grunt.log.writeln('roger');
-	}]);
+  // mix calls in alias
+  gtx.alias('mix', ['alpha:one', 'bravo:two', function() {
+    grunt.log.writeln('roger');
+  }, 'charlie', function() {
+    grunt.log.writeln('roger');
+  }]);
 ````
 
 Finish up:
 ````js
-	// let's make an alias to run all instances as your $ grunt test
-	gtx.alias('test', 'gtx-type:module_tester');
+  // let's make an alias to run all instances as your $ grunt test
+  gtx.alias('test', 'gtx-type:module_tester');
 
-	// alias is short-cut for grunt.registerTask();
-	gtx.alias('default', ['test']);
+  // alias is short-cut for grunt.registerTask();
+  gtx.alias('default', ['test']);
 
-	// compile and send to grunt.initConfig()
-	gtx.finalise();
+  // compile and send to grunt.initConfig()
+  gtx.finalise();
 };
 ````
 
@@ -243,18 +244,18 @@ $ grunt clean
 
 ## Info
 
-*	Your gruntfile is still a regular gruntfile to run by `grunt-cli`. 
-	*	Use the `grunt -h` command to view the generated tasks.
-	*	Main difference is to import and apply `gruntfile-gtx` on start if the Gruntfile.
-	*	Call `gtx.finalise()` at the end of the file to generate the config and apply aliases. 
-*	Generated aliases are prefixed with `gtx`, like `gtx-select:myAlias` or `gtx-group:dev`.
-	*	They run like any task created by `grunt.registerTask()`. 
-*	The extra API sugar like `gtx.loadNpm()` is optional, but is generally DRY-er then the regular versions.
-*	String input uses a form of expansion and iteration where applicable.
-	*	Split strings on separators to array: `gtx.alias('name', 'one, two, three')`
-	*	Nested arrays are flattened and the content split: `gtx.alias('name', [['aa','bb'], 'cc', ['dd, ee'],'ff,gg,hh'])`  
-	*	Where grunt methods accept a single string the alias will iterate: `gtx.loadNpm([..])`
-*	Gruntfile-gtx was grown organically: no gold-plating but some edges made shiny from wear.
+* Your gruntfile is still a regular gruntfile to run by `grunt-cli`. 
+  * Use the `grunt -h` command to view the generated tasks.
+  * Main difference is to import and apply `gruntfile-gtx` on start if the Gruntfile.
+  * Call `gtx.finalise()` at the end of the file to generate the config and apply aliases. 
+* Generated aliases are prefixed with `gtx`, like `gtx-select:myAlias` or `gtx-group:dev`.
+  * They run like any task created by `grunt.registerTask()`. 
+* The extra API sugar like `gtx.loadNpm()` is optional, but is generally DRY-er then the regular versions.
+* String input uses a form of expansion and iteration where applicable.
+  * Split strings on separators to array: `gtx.alias('name', 'one, two, three')`
+  * Nested arrays are flattened and the content split: `gtx.alias('name', [['aa','bb'], 'cc', ['dd, ee'],'ff,gg,hh'])`  
+  * Where grunt methods accept a single string the alias will iterate: `gtx.loadNpm([..])`
+* Gruntfile-gtx was grown organically: no gold-plating but some edges made shiny from wear.
 
 
 ## Future
@@ -279,26 +280,8 @@ See the [CHANGELOG](/CHANGELOG).
 Contributions are welcome (idiomatic, clean etc) but best to post a proposal in the [Issues](https://github.com/Bartvds/gruntfile-gtx/issues) before making big changes. 
 
 
-## Development
-
-### Requirements
-
-  - [RVM](https://rvm.io/)  
-  - [Vagrant](https://www.vagrantup.com/)  
-  - [Bundler](http://bundler.io/)  
-  - [Vagrant Omnibus](https://github.com/chef/vagrant-omnibus)  
-
-There is a Vagrantfile and set of Chef cookbooks to use with Vagrant for easy testing on a Linux VM. It will install a node.js from [nvm](https://github.com/creationix/nvm), install the dependencies and enable grunt.  
-
-```
-$ bundle install
-$ librarian-chef install
-$ vagrant up
-```
-
-
 ## License
 
-Copyright (c) 2013-2017 Bart van der Schoor
+Copyright (c) 2013-2018 Bart van der Schoor
 
 Licensed under the MIT license.
