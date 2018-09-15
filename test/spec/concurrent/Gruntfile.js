@@ -1,10 +1,9 @@
-module.exports = function (grunt) {
-  'use strict';
+'use strict';
 
-  //var path = require('path');
-  var path = require('path');
-  var gtx = require('../../../lib/gtx.js').wrap(grunt);
-  //gtx.debug = true;
+const path = require('path');
+
+module.exports = function (grunt) {
+  const gtx = require('../../../lib/gtx.js').wrap(grunt);
 
   gtx.loadTasks('../../../node_modules/grunt-contrib-clean/tasks');
   gtx.loadTasks('../../test_tasks');
@@ -34,15 +33,18 @@ module.exports = function (grunt) {
   gtx.define('echoList', function (macro, id) {
     macro.log('Test!');
 
-    var defaultWait = 200;
-    var wait = macro.getParam('wait', defaultWait);
+    const defaultWait = 200;
+    const wait = macro.getParam('wait', defaultWait);
+
     if (wait > defaultWait) {
       macro.tag('slow');
     }
     else if (wait < defaultWait) {
       macro.tag('fast');
     }
-    var str = id + ' says: ';
+
+    const str = id + ' says: ';
+
     macro.add('echo', {
       options: {
         echo: str + 'one',

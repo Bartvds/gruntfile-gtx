@@ -1,9 +1,7 @@
-/*jshint -W098*/
+'use strict';
 
 module.exports = function (grunt) {
-  'use strict';
-
-  var gtx = require('../../../lib/gtx.js').wrap(grunt);
+  const gtx = require('../../../lib/gtx.js').wrap(grunt);
 
   gtx.loadTasks('../../../node_modules/grunt-contrib-clean/tasks');
 
@@ -19,7 +17,7 @@ module.exports = function (grunt) {
       }
     }
   });
-  gtx.define('simple_macro', function (macro, id) {
+  gtx.define('simple_macro', function (macro) {
     macro.log('Test! ' + macro.getParam('message'));
   });
 

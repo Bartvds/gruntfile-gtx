@@ -1,8 +1,7 @@
-module.exports = function (grunt) {
-  'use strict';
+'use strict';
 
-  var gtx = require('./lib/gtx').wrap(grunt);
-  // gtx.debug = true;
+module.exports = function (grunt) {
+  const gtx = require('./lib/gtx').wrap(grunt);
 
   gtx.loadAuto();
   gtx.loadTasks('./test/test_tasks');
@@ -37,6 +36,7 @@ module.exports = function (grunt) {
       }
     }
   });
+
   // assemble a macro
   gtx.define('testCase', function (macro, id) {
     var specPath = 'test/spec/' + id + '/';
@@ -53,6 +53,7 @@ module.exports = function (grunt) {
         specPath + '**/*.js'
       ]
     });
+
     macro.add('run_grunt', {
       options: {
         log: macro.getParam('log', false),
@@ -67,9 +68,11 @@ module.exports = function (grunt) {
       },
       src: [specPath + 'Gruntfile.js']
     });
+
     macro.add('mochaTest', {
       src: ['test/spec/init.js', specPath + '**/*.test.js']
     });
+
     macro.tag('test');
   }, {
     concurrent: 2
@@ -97,6 +100,5 @@ module.exports = function (grunt) {
   gtx.alias('edit_01', 'gtx:basic');
   gtx.alias('edit_02', 'gtx:dummy');
 
-  //gtx.debug = true;
   gtx.finalise();
 };

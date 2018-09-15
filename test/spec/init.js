@@ -1,19 +1,21 @@
-var mkdirp = require('mkdirp');
-//var _ = require('underscore');
-var grunt = require('grunt');
-var chai = require('chai');
+'use strict';
+
+const mkdirp = require('mkdirp');
+const grunt = require('grunt');
+const chai = require('chai');
+
 chai.Assertion.includeStack = true;
 chai.should();
-//var expect = chai.expect;
-var assert = chai.assert;
+
+const assert = chai.assert;
 chai.use(require('chai-fs'));
 
-var gtx_mod = require('../../lib/gtx');
+const gtx_mod = require('../../lib/gtx');
 assert.isObject(gtx_mod, 'gtx');
 
 chai.gtx_mod = gtx_mod;
 
-before(function () {
+before(() => {
   // create some empty dirs (cannot check-in empty dirs to git)
   mkdirp.sync('./test/tmp');
   mkdirp.sync('./tmp');
@@ -21,15 +23,14 @@ before(function () {
   assert.isDirectory('./test/tmp');
 });
 
-console.log('init!');
-
-describe('gruntfile-gtx', function () {
-  it('exports module', function () {
+describe('gruntfile-gtx', () => {
+  it('exports module', () => {
     assert.isObject(gtx_mod, 'gtx');
     assert.isFunction(gtx_mod.wrap, 'gtx.wrap');
   });
-  it('module main is linked in package.json', function () {
-    var pkg = grunt.file.readJSON('package.json');
+
+  it('module main is linked in package.json', () => {
+    const pkg = grunt.file.readJSON('package.json');
     assert.isObject(pkg, 'pkg');
 
     assert.property(pkg, 'main', 'pkg.main');

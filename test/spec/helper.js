@@ -1,15 +1,19 @@
-var util = require('util');
-var path = require('path');
-var grunt = require('grunt');
-var chai = require('chai');
-var assert = chai.assert;
+'use strict';
+
+const util = require('util');
+const path = require('path');
+const grunt = require('grunt');
+const chai = require('chai');
+const assert = chai.assert;
 
 function toUnixNewline(str) {
   return str.replace(/\r\n|\r/g, "\n");
 }
+
 function toWindowNewLine(str) {
   return str.replace(/\r\n|\r|\n/g, "\r\n");
 }
+
 function inspect(value, depth) {
   console.log(util.inspect(value, false, depth || 10));
 }
