@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/Bartvds/gruntfile-gtx.svg?branch=master)](https://travis-ci.org/Bartvds/gruntfile-gtx)
 [![Coverage Status](https://coveralls.io/repos/github/Bartvds/gruntfile-gtx/badge.svg?branch=master)](https://coveralls.io/github/Bartvds/gruntfile-gtx?branch=master)
-[![Dependency Status](https://david-dm.org/killmenot/Bartvds/gruntfile-gtx.svg)](https://david-dm.org/killmenot/Bartvds/gruntfile-gtx)
+[![Dependency Status](https://david-dm.org/Bartvds/gruntfile-gtx.svg)](https://david-dm.org/Bartvds/gruntfile-gtx)
 [![npm version](https://img.shields.io/npm/v/gruntfile-gtx.svg)](https://www.npmjs.com/package/gruntfile-gtx)
 > Turbo, spoilers and a sunroof for your Gruntfile.
 
