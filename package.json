@@ -1,6 +1,6 @@
 {
   "name": "gruntfile-gtx",
-  "version": "0.3.0",
+  "version": "1.0.0",
   "description": "Turbo, spoilers and a sunroof for your Gruntfile",
   "main": "lib/gtx.js",
   "license": "MIT",

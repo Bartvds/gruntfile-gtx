@@ -1,3 +1,9 @@
+v1.0.0
+  date: 27-09-2018
+  changes:
+    - Drop Grunt < 1 support
+    - Drop Node.js < 6 support
+
 v0.3.0
   date: 24-05-2014
   changes:
